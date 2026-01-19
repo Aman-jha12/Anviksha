@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anviksha - Public Infrastructure Spending Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+    <div class="page-wrapper">
+        
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero__container">
+                <h1 class="hero__title">Anviksha</h1>
+                <p class="hero__subtitle">Public Infrastructure Spending Explorer</p>
+                <p class="hero__description">
+                    A transparency-focused analytical portal to explore how public funds are allocated 
+                    to road infrastructure across districts in West Bengal.
+                </p>
+                <div class="hero__badges">
+                    <span class="badge">Inflation-adjusted</span>
+                    <span class="badge">Public data</span>
+                    <span class="badge">Research use</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN CONTAINER -->
+        <div class="container">
+
+            <!-- PURPOSE SECTION - UPGRADED -->
+            <section class="section section--purpose">
+                <div class="purpose-header">
+                    <h2 class="section__title">Why This Portal Exists</h2>
+                    <p class="purpose-subtitle">
+                        A transparency-first initiative to make public infrastructure spending 
+                        understandable, auditable, and accessible.
+                    </p>
+                    <p class="purpose-tagline">Designed for transparency, research, and public trust.</p>
+                </div>
+                
+                <div class="purpose-grid">
+                    <div class="purpose-card">
+                        <div class="purpose-card__icon">📊</div>
+                        <h3 class="purpose-card__title">Enable Transparency</h3>
+                        <p class="purpose-card__subtitle">Make public spending visible and interpretable.</p>
+                        <p class="purpose-card__description">
+                            This portal transforms complex procurement records into clear, inflation-adjusted 
+                            insights so citizens, journalists, and researchers can understand how public funds 
+                            are allocated.
+                        </p>
+                    </div>
+
+                    <div class="purpose-card">
+                        <div class="purpose-card__icon">🔍</div>
+                        <h3 class="purpose-card__title">Support Independent Research</h3>
+                        <p class="purpose-card__subtitle">Surface patterns without making claims.</p>
+                        <p class="purpose-card__description">
+                            The platform provides analytical tools to identify trends, outliers, and statistical 
+                            patterns in infrastructure spending, enabling further independent review and inquiry.
+                        </p>
+                    </div>
+
+                    <div class="purpose-card">
+                        <div class="purpose-card__icon">⚖️</div>
+                        <h3 class="purpose-card__title">Promote Accountable Discourse</h3>
+                        <p class="purpose-card__subtitle">Encourage informed, data-driven discussion.</p>
+                        <p class="purpose-card__description">
+                            By presenting neutral, descriptive analysis, the portal supports responsible public 
+                            conversation around government spending without accusations or assumptions of intent.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ethical Signal -->
+                <div class="purpose-ethics">
+                    <div class="ethics-icon">⚠️</div>
+                    <div class="ethics-content">
+                        <strong>Important:</strong> This platform does not determine wrongdoing or intent. 
+                        All outputs are statistical observations derived from publicly available data and are 
+                        presented for research and public understanding only.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT SECTION - REDESIGNED -->
+            <section class="section section--about">
+                <div class="about-container">
+                    <div class="about-header">
+                        <span class="about-icon">ℹ️</span>
+                        <h2 class="section__title">About This Portal</h2>
+                    </div>
+                    
+                    <p class="about-intro">
+                        This portal presents a transparent, data-driven view of road infrastructure spending 
+                        across districts in West Bengal. It is designed to help users explore how public funds 
+                        are allocated over time using publicly available procurement data.
+                    </p>
+
+                    <div class="about-points">
+                        <div class="about-point">
+                            <div class="point-marker">•</div>
+                            <div class="point-content">
+                                <strong>Inflation-Adjusted Analysis</strong>
+                                <p>All monetary values are adjusted using CPI-based normalization to allow fair year-over-year comparison across projects and districts.</p>
+                            </div>
+                        </div>
+
+                        <div class="about-point">
+                            <div class="point-marker">•</div>
+                            <div class="point-content">
+                                <strong>Public & Verifiable Data Sources</strong>
+                                <p>The analysis is based solely on publicly accessible government procurement and tender records. No private or confidential data is used.</p>
+                            </div>
+                        </div>
+
+                        <div class="about-point">
+                            <div class="point-marker">•</div>
+                            <div class="point-content">
+                                <strong>Research & Public Understanding</strong>
+                                <p>Insights are descriptive and observational in nature. The portal is intended for research, journalism, and informed public discussion—not for making allegations or claims of wrongdoing.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </section>
+
+            <!-- CREDIBILITY SECTION -->
+            <section class="section section--credibility">
+                <h2 class="section__title">✓ Designed for Transparency & Research</h2>
+                <p class="section__subtitle">
+                    This portal is built on principles of open access, reproducibility, and methodological transparency.
+                </p>
+                
+                <div class="credibility-grid">
+                    <div class="credibility-card">
+                        <div class="credibility-card__icon">🔓</div>
+                        <h3 class="credibility-card__title">No Login Required</h3>
+                        <p class="credibility-card__text">
+                            Fully open access to all data and analysis. No registration, 
+                            no barriers, no gatekeeping.
+                        </p>
+                    </div>
+                    
+                    <div class="credibility-card">
+                        <div class="credibility-card__icon">📂</div>
+                        <h3 class="credibility-card__title">Public Data Only</h3>
+                        <p class="credibility-card__text">
+                            Uses officially published government records from 
+                            procurement portals and public documents.
+                        </p>
+                    </div>
+                    
+                    <div class="credibility-card">
+                        <div class="credibility-card__icon">🔄</div>
+                        <h3 class="credibility-card__title">Fully Reproducible</h3>
+                        <p class="credibility-card__text">
+                            Analysis methodology is transparent, documented, 
+                            and independently verifiable.
+                        </p>
+                    </div>
+                    
+                    <div class="credibility-card">
+                        <div class="credibility-card__icon">⚙️</div>
+                        <h3 class="credibility-card__title">No Black Boxes</h3>
+                        <p class="credibility-card__text">
+                            All statistical methods are standard, peer-reviewed, 
+                            and fully documented.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FILTERS SECTION -->
+            <section class="section section--filters">
+                <h2 class="section__title">🗺️ Explore by Region</h2>
+                
+                <form hx-post="/filter" hx-target="#results-container" hx-indicator="#loading-spinner" class="filter-form">
+                    <div class="filter-card">
+                        <div class="filter-group">
+                            <label for="district" class="filter-label">District</label>
+                            <select id="district" name="district" class="filter-input" hx-trigger="change">
+                                {% for dist in districts %}
+                                <option value="{{ dist }}">{{ dist }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="department" class="filter-label">Department</label>
+                            <select id="department" name="department" class="filter-input" hx-trigger="change">
+                                {% for dept in departments %}
+                                <option value="{{ dept }}">{{ dept }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <p class="filter-helper">📊 Analysis updates automatically based on selection</p>
+                    <div id="loading-spinner" class="loading-indicator htmx-indicator">
+                        <span class="spinner"></span> Updating analysis...
+                    </div>
+                </form>
+            </section>
+
+            <!-- RESULTS CONTAINER (HTMX TARGET) -->
+            <div id="results-container">
+                {% include 'partials/results.html' %}
+            </div>
+
+            <!-- METHODOLOGY SECTION - UPGRADED -->
+            <section class="section section--methodology">
+                <div class="methodology-header">
+                    <h2 class="section__title">🔬 Methodology & Limitations</h2>
+                    <p class="methodology-intro">
+                        This portal employs standard economic and statistical methods to analyze publicly available 
+                        procurement data. All techniques are peer-reviewed, transparent, and independently verifiable.
+                    </p>
+                </div>
+                
+                <div class="methodology-grid">
+                    <!-- Card 1: Inflation Adjustment -->
+                    <div class="methodology-card">
+                        <div class="methodology-card__icon">📈</div>
+                        <h3 class="methodology-card__title">Inflation Adjustment</h3>
+                        <p class="methodology-card__description">
+                            All monetary values are adjusted to a common 2024 base year using official 
+                            Consumer Price Index (CPI) data published by the Reserve Bank of India.
+                        </p>
+                        <div class="methodology-card__details">
+                            <div class="detail-item">
+                                <span class="detail-label">Method:</span>
+                                <span class="detail-value">CPI-based adjustment</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Base Year:</span>
+                                <span class="detail-value">2024 = 100</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Purpose:</span>
+                                <span class="detail-value">Enable fair year-over-year comparison</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Pattern Detection -->
+                    <div class="methodology-card">
+                        <div class="methodology-card__icon">🔍</div>
+                        <h3 class="methodology-card__title">Pattern Detection</h3>
+                        <p class="methodology-card__description">
+                            Statistical observations are identified using quantitative methods including 
+                            percentile analysis, interquartile range (IQR), and rule-based thresholds.
+                        </p>
+                        <div class="methodology-card__details">
+                            <div class="detail-item">
+                                <span class="detail-label">Techniques:</span>
+                                <span class="detail-value">IQR, percentile analysis, z-scores</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Threshold:</span>
+                                <span class="detail-value">Q3 + 1.5×IQR for outliers</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Nature:</span>
+                                <span class="detail-value">Descriptive, non-causal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Data Completeness -->
+                    <div class="methodology-card">
+                        <div class="methodology-card__icon">📂</div>
+                        <h3 class="methodology-card__title">Data Completeness</h3>
+                        <p class="methodology-card__description">
+                            Dataset covers publicly disclosed tender records. Some historical data may be 
+                            incomplete due to digitization limitations or varying disclosure practices.
+                        </p>
+                        <div class="methodology-card__details">
+                            <div class="detail-item">
+                                <span class="detail-label">Source:</span>
+                                <span class="detail-value">Government procurement portals</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Coverage:</span>
+                                <span class="detail-value">West Bengal road projects</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Limitation:</span>
+                                <span class="detail-value">Absence ≠ non-spending</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Non-Causal Analysis -->
+                    <div class="methodology-card">
+                        <div class="methodology-card__icon">⚠️</div>
+                        <h3 class="methodology-card__title">Non-Causal Analysis</h3>
+                        <p class="methodology-card__description">
+                            All analysis is observational and descriptive. No causal claims are made. 
+                            Patterns require domain expertise and contextual investigation to interpret.
+                        </p>
+                        <div class="methodology-card__details">
+                            <div class="detail-item">
+                                <span class="detail-label">Approach:</span>
+                                <span class="detail-value">Observational, exploratory</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Output:</span>
+                                <span class="detail-value">Patterns, not conclusions</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Intent:</span>
+                                <span class="detail-value">Research, transparency, public understanding</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Methodology Footer -->
+                <div class="methodology-footer">
+                    <div class="methodology-disclaimer">
+                        <div class="disclaimer-icon">📘</div>
+                        <div class="disclaimer-content">
+                            <h4 class="disclaimer-title">Methodological Transparency</h4>
+                            <p class="disclaimer-text">
+                                All statistical methods used in this portal are standard techniques widely accepted 
+                                in economics, public policy research, and data science. The analysis does not employ 
+                                proprietary algorithms, machine learning models, or undisclosed techniques. Every calculation 
+                                can be independently verified using the exported data and documented formulas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXPORT SECTION -->
+            <section class="section section--export">
+                <h2 class="section__title">📥 Export Data</h2>
+                <p class="section__text">
+                    Download the analyzed dataset for independent research or verification. 
+                    All exported files include metadata and methodology notes.
+                </p>
+                <div class="export-buttons">
+                    <a href="/export/summary" class="btn btn--primary">📥 Download Summary (CSV)</a>
+                    <a href="/export/detailed" class="btn btn--secondary">📥 Download Detailed Data (CSV)</a>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer__container">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <h3 class="footer__heading">📊 Data Source</h3>
+                        <p class="footer__text">
+                            Public records from West Bengal Department of Public Works 
+                            (Road Development Branch). All data sourced from official 
+                            government publications and procurement portals.
+                        </p>
+                    </div>
+                    <div class="footer-column">
+                        <h3 class="footer__heading">🔧 Methodology</h3>
+                        <p class="footer__text">
+                            Inflation adjustment using RBI/MOSPI CPI indices. Pattern detection 
+                            via percentile analysis and IQR-based outlier detection. All methods 
+                            are standard and transparent.
+                        </p>
+                    </div>
+                    <div class="footer-column">
+                        <h3 class="footer__heading">⚖️ Ethical Framework</h3>
+                        <p class="footer__text">
+                            This analysis presents factual observations without advocacy. 
+                            All interpretations are based on quantitative data analysis 
+                            and are explicitly non-causal and non-judgmental.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="footer__disclaimer">
+                    <p>
+                        <strong>Research & Transparency Notice:</strong> Anviksha does not determine intent, wrongdoing, or causality. 
+                        All outputs are statistical observations for research purposes only. This portal is designed 
+                        for public understanding of infrastructure spending patterns, not for accusations or regulatory determinations.
+                    </p>
+                </div>
+
+                <div class="footer__credit">
+                    <p>Anviksha © 2024 | Public Infrastructure Spending Explorer | West Bengal | Open Research</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="{{ url_for('static', path='script.js') }}"></script>
+</body>
+</html>

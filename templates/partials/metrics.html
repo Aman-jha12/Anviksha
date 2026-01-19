@@ -1,0 +1,129 @@
+<!-- OVERVIEW METRICS -->
+<section class="metrics-section">
+    <h2 class="section-title">Overview</h2>
+    
+    <div class="metrics-grid">
+        <!-- Primary Metric -->
+        <div class="metric-card metric-card--primary">
+            <div class="metric-header">
+                <span class="metric-icon">₹</span>
+                <h3 class="metric-title">Total Spending (Adjusted)</h3>
+            </div>
+            <div class="metric-value">
+                {% if stats.get('total_spending') %}
+                    ₹{{ (stats['total_spending'] / 10000000) | round(2) }} Cr
+                {% else %}
+                    ₹0
+                {% endif %}
+            </div>
+            <p class="metric-subtext">Inflation-adjusted expenditure across selected filters</p>
+        </div>
+
+        <!-- Secondary Metrics -->
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-icon">🛣️</span>
+                <h3 class="metric-title">Total Projects</h3>
+            </div>
+            <div class="metric-value">{{ stats.get('total_projects', 0) | int }}</div>
+            <p class="metric-subtext">Number of road infrastructure projects</p>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-icon">📅</span>
+                <h3 class="metric-title">Time Range</h3>
+            </div>
+            <div class="metric-value">{{ stats.get('year_range', 'N/A') }}</div>
+            <p class="metric-subtext">Years covered by this dataset</p>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-icon">📏</span>
+                <h3 class="metric-title">Avg Cost per Km</h3>
+            </div>
+            <div class="metric-value">
+                {% if stats.get('avg_cost_per_km') %}
+                    ₹{{ (stats['avg_cost_per_km'] / 100000) | round(2) }} Lakh
+                {% else %}
+                    ₹0
+                {% endif %}
+            </div>
+            <p class="metric-subtext">Average adjusted spending per kilometer</p>
+        </div>
+    </div>
+</section>
+
+<!-- STATISTICAL OBSERVATIONS -->
+<section class="observations-section">
+    <h2 class="section-title">Statistical Observations</h2>
+    
+    <div class="observations-grid">
+        {% if observations %}
+            {% for observation in observations %}
+            <div class="observation-card">
+                <span class="observation-label">Statistical Observation</span>
+                <p class="observation-text">{{ observation.get('text', '') }}</p>
+                <p class="observation-metric">{{ observation.get('metric', '') }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="observation-card">
+                <span class="observation-label">No Data</span>
+                <p class="observation-text">No observations available for current selection.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- DETAILED DATA TABLE -->
+<section class="table-section">
+    <h2 class="section-title">Detailed Project Data</h2>
+    
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>District</th>
+                    <th>Department</th>
+                    <th>Project Name</th>
+                    <th>Length (km)</th>
+                    <th>Spending (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if table_data %}
+                    {% for row in table_data %}
+                    <tr>
+                        <td>{{ row.get('Award_Year', 'N/A') }}</td>
+                        <td>{{ row.get('District', 'N/A') }}</td>
+                        <td>{{ row.get('Department', 'N/A') }}</td>
+                        <td>{{ row.get('Project_Name', 'N/A') }}</td>
+                        <td>{{ row.get('Project_Length_km', 0) | round(2) }}</td>
+                        <td>₹{{ (row.get('Tender_Value_Adjusted_Rs', 0) / 10000000) | round(2) }} Cr</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: #6b7280;">
+                            No data available for current selection.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- EXPORT SECTION -->
+<section class="export-section">
+    <h2 class="section-title">Export Data</h2>
+    <p class="export-helper">Download data for further independent analysis.</p>
+    
+    <div class="export-buttons">
+        <a href="/export/summary" class="btn btn--primary">📥 Download as CSV</a>
+        <a href="/export/detailed" class="btn btn--secondary">📥 Download as JSON</a>
+    </div>
+</section>

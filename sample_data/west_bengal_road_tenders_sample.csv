@@ -1,0 +1,45 @@
+contract_value,vendor_name,contract_date,department,description,num_bidders,category
+2500000,ABC Construction Pvt Ltd,2018-03-15,Rural Development,Road construction - Village road connectivity project,5,Road Construction
+5200000,XYZ Infrastructure Private Limited,2018-06-20,Public Works,Highway widening project - NH 34,8,Road Construction
+1800000,West Bengal Builders Ltd,2018-09-10,Rural Development,Village road construction and repair,3,Road Construction
+7500000,Delta Roadways Pvt Ltd,2018-12-05,Public Works,Major road construction - State Highway,12,Road Construction
+3200000,ABC Construction Pvt Ltd,2019-02-18,Rural Development,Road construction - Block level connectivity,4,Road Construction
+4500000,Modern Constructions Ltd,2019-05-22,Public Works,Urban road improvement project,6,Road Construction
+2800000,XYZ Infrastructure Private Limited,2019-08-30,Rural Development,Rural road construction - Panchayat project,5,Road Construction
+6200000,Gamma Builders Pvt Ltd,2019-11-15,Public Works,Bridge and road construction project,9,Road Construction
+3500000,ABC Construction Pvt Ltd,2020-01-25,Rural Development,Road construction and culvert repair,4,Road Construction
+5800000,Delta Roadways Pvt Ltd,2020-04-12,Public Works,Highway maintenance and construction,7,Road Construction
+4200000,Modern Constructions Ltd,2020-07-08,Rural Development,Village road connectivity - Phase 2,6,Road Construction
+25000000,ABC Construction Pvt Ltd,2020-10-20,Rural Development,Road construction project - Major village connectivity,2,Road Construction
+3800000,XYZ Infrastructure Private Limited,2021-02-14,Public Works,Urban road development project,8,Road Construction
+4900000,Gamma Builders Pvt Ltd,2021-05-30,Rural Development,Rural road construction - District level,5,Road Construction
+5500000,Delta Roadways Pvt Ltd,2021-09-18,Public Works,Highway construction and repair work,10,Road Construction
+4200000,ABC Construction Pvt Ltd,2021-12-03,Rural Development,Road construction - Village connectivity,3,Road Construction
+6800000,Modern Constructions Ltd,2022-03-22,Public Works,State Highway improvement project,9,Road Construction
+5100000,XYZ Infrastructure Private Limited,2022-06-15,Rural Development,Road and bridge construction,7,Road Construction
+4500000,ABC Construction Pvt Ltd,2022-09-28,Public Works,Urban road construction project,4,Road Construction
+8500000,Delta Roadways Pvt Ltd,2022-12-10,Rural Development,Major road construction - Block headquarters,11,Road Construction
+4800000,Gamma Builders Pvt Ltd,2023-02-20,Public Works,Highway widening and maintenance,8,Road Construction
+5200000,ABC Construction Pvt Ltd,2023-05-15,Rural Development,Road construction - Village road project,2,Road Construction
+6000000,Modern Constructions Ltd,2023-08-22,Public Works,Urban road development - Phase 3,12,Road Construction
+7200000,XYZ Infrastructure Private Limited,2023-11-05,Rural Development,Rural road construction and repair,6,Road Construction
+38000000,ABC Construction Pvt Ltd,2024-01-30,Rural Development,Road construction - Major connectivity project,1,Road Construction
+5500000,Delta Roadways Pvt Ltd,2024-03-18,Public Works,Highway construction project,10,Road Construction
+6400000,Gamma Builders Pvt Ltd,2024-06-25,Rural Development,Road and culvert construction,7,Road Construction
+5800000,Modern Constructions Ltd,2024-08-12,Public Works,State road improvement project,9,Road Construction
+4900000,ABC Construction Pvt Ltd,2024-09-20,Rural Development,Village road construction project,3,Road Construction
+6200000,XYZ Infrastructure Private Limited,2024-10-15,Public Works,Urban road development - Final phase,8,Road Construction
+3500000,PQR Builders Pvt Ltd,2018-04-10,Public Works,Road construction - Minor project,4,Road Construction
+4100000,ABC Construction Pvt Ltd,2018-07-25,Rural Development,Rural road repair and construction,5,Road Construction
+2900000,STU Infrastructure Ltd,2019-03-30,Public Works,Urban road improvement,6,Road Construction
+3600000,ABC Construction Pvt Ltd,2019-07-15,Rural Development,Road construction - Village connectivity,3,Road Construction
+4700000,VWX Constructions Pvt Ltd,2020-02-20,Public Works,Highway maintenance project,8,Road Construction
+3900000,ABC Construction Pvt Ltd,2020-08-05,Rural Development,Road and bridge construction,4,Road Construction
+5400000,YZA Builders Ltd,2021-03-25,Public Works,State road construction,10,Road Construction
+4400000,ABC Construction Pvt Ltd,2021-11-12,Rural Development,Road construction - Block level,2,Road Construction
+5100000,BCD Infrastructure Pvt Ltd,2022-05-18,Public Works,Urban road development,9,Road Construction
+3700000,ABC Construction Pvt Ltd,2022-10-22,Rural Development,Road construction - Village project,5,Road Construction
+5900000,CDE Constructions Ltd,2023-04-10,Public Works,Highway widening project,11,Road Construction
+4300000,ABC Construction Pvt Ltd,2023-09-28,Rural Development,Rural road construction,3,Road Construction
+5600000,DEF Builders Pvt Ltd,2024-02-15,Public Works,Road improvement project,7,Road Construction
+4800000,ABC Construction Pvt Ltd,2024-07-30,Rural Development,Road construction - Final phase,4,Road Construction

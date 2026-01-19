@@ -1,0 +1,310 @@
+<!-- AUTO-GENERATED INSIGHT SUMMARY -->
+<section class="section section--insight-summary">
+    <div class="insight-box">
+        <div class="insight-header">
+            <span class="insight-icon">📊</span>
+            <h3 class="insight-title">Analysis Summary</h3>
+        </div>
+        <p class="insight-text">
+            {% if insight_summary and insight_summary|trim %}
+                {{ insight_summary | safe }}
+            {% else %}
+                For {{ stats.time_range }}, total inflation-adjusted spending was
+                <strong>₹{{ '%.2f'|format(stats.total_spending/10000000) }} crore</strong>
+                across <strong>{{ stats.total_projects }}</strong> project(s).
+                Average cost per km was <strong>₹{{ '%.2f'|format(stats.avg_cost_per_km) }} lakh</strong>.
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- KEY METRICS SECTION -->
+<section class="section section--metrics">
+    <h2 class="section__title">📈 Overview Metrics</h2>
+    
+    <div class="metrics-grid">
+        <div class="metric-card metric-card--primary">
+            <div class="metric-icon">₹</div>
+            <div class="metric-content">
+                <div class="metric-label">Total Spending</div>
+                <div class="metric-value">{{ '%.2f'|format(stats.total_spending / 10000000) }} Cr</div>
+                <div class="metric-note">Inflation-adjusted to 2024</div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-icon">🛣️</div>
+            <div class="metric-content">
+                <div class="metric-label">Total Projects</div>
+                <div class="metric-value">{{ stats.total_projects }}</div>
+                <div class="metric-note">Road infrastructure projects</div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-icon">📏</div>
+            <div class="metric-content">
+                <div class="metric-label">Avg Cost per Km</div>
+                <div class="metric-value">₹{{ '%.1f'|format(stats.avg_cost_per_km) }}L</div>
+                <div class="metric-note">Average adjusted cost per kilometer</div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-icon">📊</div>
+            <div class="metric-content">
+                <div class="metric-label">Districts</div>
+                <div class="metric-value">{{ stats.districts_count }}</div>
+                <div class="metric-note">Covered by selection</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CHARTS SECTION - UPGRADED -->
+<section class="section section--charts">
+    <h2 class="section__title">📊 Spending Trends</h2>
+    <p class="section__subtitle">
+        Visual analysis of spending patterns across time, geography, and vendors. 
+        All values are inflation-adjusted for fair comparison.
+    </p>
+    
+    <div class="charts-grid">
+        <!-- CHART 1: Spending Over Time -->
+        <div class="chart-card">
+            <div class="chart-card__header">
+                <h3 class="chart-card__title">Spending Over Time</h3>
+                <p class="chart-card__subtitle">Year-over-year trend (inflation-adjusted)</p>
+            </div>
+            
+            <div class="chart-card__visual">
+                <img
+                    src="data:image/png;base64,{{ year_chart }}"
+                    alt="Spending Over Time"
+                    class="chart-image"
+                />
+            </div>
+            
+            <div class="chart-card__insight">
+                {% if year_spending|length > 1 %}
+                    {% set latest_year = year_spending[-1] %}
+                    {% set prev_year = year_spending[-2] %}
+                    {% set change_pct = ((latest_year.Total_Spending - prev_year.Total_Spending) / prev_year.Total_Spending * 100) %}
+                    <p class="insight-text">
+                        <span class="insight-badge {% if change_pct > 0 %}insight-badge--up{% else %}insight-badge--down{% endif %}">
+                            {% if change_pct > 0 %}↑{% else %}↓{% endif %} {{ change_pct|abs|round(1) }}%
+                        </span>
+                        Spending {% if change_pct > 0 %}increased{% else %}decreased{% endif %} 
+                        from {{ prev_year.Award_Year }} to {{ latest_year.Award_Year }}.
+                    </p>
+                {% endif %}
+            </div>
+            
+            <details class="chart-card__details">
+                <summary class="details-trigger">📖 How this is calculated</summary>
+                <div class="details-content">
+                    <p><strong>Calculation:</strong> Sum of all awarded contract values per year, adjusted for inflation to 2024 base year using CPI indices.</p>
+                    <p><strong>Does not imply:</strong> Inefficiency, misuse, or policy intent. Changes may reflect project cycles, budget allocation, or market conditions.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- CHART 2: Spending by District -->
+        <div class="chart-card">
+            <div class="chart-card__header">
+                <h3 class="chart-card__title">Spending by District</h3>
+                <p class="chart-card__subtitle">Geographic allocation (current filters)</p>
+            </div>
+            
+            <div class="chart-card__visual">
+                <img
+                    src="data:image/png;base64,{{ district_chart }}"
+                    alt="Spending by District"
+                    class="chart-image"
+                />
+            </div>
+            
+            <div class="chart-card__insight">
+                {% if district_spending|length > 0 %}
+                    {% set total = district_spending|sum(attribute='Total_Spending') %}
+                    {% set top2 = (district_spending[0].Total_Spending + district_spending[1].Total_Spending) if district_spending|length > 1 else district_spending[0].Total_Spending %}
+                    {% set top2_pct = (top2 / total * 100) if total > 0 else 0 %}
+                    <p class="insight-text">
+                        Top {{ [2, district_spending|length]|min }} district(s) account for 
+                        <strong>{{ top2_pct|round(0)|int }}%</strong> of total spending.
+                    </p>
+                {% endif %}
+            </div>
+            
+            <details class="chart-card__details">
+                <summary class="details-trigger">📖 Understanding this chart</summary>
+                <div class="details-content">
+                    <p><strong>What it shows:</strong> Total inflation-adjusted spending by geographic district for the selected filters.</p>
+                    <p><strong>Context:</strong> Values depend on project size, geography, road density, and scope. Higher spending may reflect larger projects or more extensive infrastructure needs.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- CHART 3: Top Vendors -->
+        <div class="chart-card">
+            <div class="chart-card__header">
+                <h3 class="chart-card__title">Top Vendors</h3>
+                <p class="chart-card__subtitle">By total contract value (top 5)</p>
+            </div>
+            
+            <div class="chart-card__visual">
+                <img
+                    src="data:image/png;base64,{{ vendor_chart }}"
+                    alt="Top Vendors by Contract Value"
+                    class="chart-image"
+                />
+            </div>
+            
+            <div class="chart-card__insight">
+                {% if vendor_stats|length > 0 %}
+                    {% set total_value = vendor_stats|sum(attribute='Total_Value') %}
+                    {% set top_vendor_share = (vendor_stats[0].Total_Value / total_value * 100) if total_value > 0 else 0 %}
+                    <p class="insight-text">
+                        Highest vendor accounts for <strong>{{ top_vendor_share|round(0)|int }}%</strong> of total contract value.
+                    </p>
+                {% endif %}
+            </div>
+            
+            <details class="chart-card__details">
+                <summary class="details-trigger">📖 Understanding vendor rankings</summary>
+                <div class="details-content">
+                    <p><strong>What it shows:</strong> Vendors ranked by total awarded contract value (inflation-adjusted). Limited to top 5 for clarity.</p>
+                    <p><strong>Disclaimer:</strong> Vendor ranking reflects awarded contract value only and does not indicate quality, performance, or compliance. High values may reflect specialization or project complexity.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- CROSS-CHART CONTEXT -->
+    <div class="chart-context">
+        <h3 class="chart-context__title">📘 How to Read These Trends</h3>
+        <ul class="chart-context__list">
+            <li><strong>All values are inflation-adjusted</strong> to a 2024 base year using official CPI indices, enabling fair year-over-year comparison.</li>
+            <li><strong>Trends show allocation patterns</strong>, not performance evaluation. Higher spending does not indicate inefficiency, and lower spending does not indicate neglect.</li>
+            <li><strong>Statistical patterns are descriptive</strong>, not investigative. They highlight observable differences that may reflect project scope, market conditions, or procurement cycles.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- STATISTICAL OBSERVATIONS SECTION -->
+<section class="section section--observations">
+    <div class="observations-header">
+        <h2 class="section__title">🔍 Research Notes: Statistical Patterns</h2>
+        <p class="observations-intro">
+            The following statistical patterns emerged from descriptive quantitative analysis of publicly available, 
+            inflation-adjusted procurement data. These patterns are observational in nature and do not imply causation, 
+            intent, or wrongdoing. Each finding includes detection methodology, confidence assessment, and explicit limitations.
+        </p>
+    </div>
+    
+    {% if observations %}
+    <div class="observations-grid">
+        {% for obs in observations %}
+        <div class="research-note" data-pattern-type="{{ obs.type|default('pattern') }}">
+            <div class="research-note__header">
+                <div class="research-note__tag-group">
+                    <span class="research-tag research-tag--{{ obs.type|default('pattern') }}">
+                        {% if obs.type == 'high_cost' %}HIGH VALUE
+                        {% elif obs.type == 'low_competition' %}LIMITED BIDDERS
+                        {% elif obs.type == 'year_over_year' %}VALUE CHANGE
+                        {% else %}STATISTICAL PATTERN{% endif %}
+                    </span>
+                </div>
+                <div class="research-confidence">
+                    <span class="confidence-badge confidence-badge--{{ obs.confidence|default('Medium')|lower }}">
+                        {{ obs.confidence|default('Medium') }}
+                    </span>
+                </div>
+            </div>
+
+            <h3 class="research-note__title">{{ obs.title|default('Statistical Observation') }}</h3>
+            <p class="research-note__description">{{ obs.description|default('Descriptive statistical pattern observed in the dataset.') }}</p>
+
+            <div class="confidence-explanation">
+                <strong>How detected:</strong>
+                {{ obs.confidence_reason|default('Descriptive statistical rule (percentile/IQR) applied.') }}
+            </div>
+
+            <div class="research-note__disclaimer">
+                <strong>⚠️ Does not imply:</strong>
+                {{ obs.does_not_imply|default('Irregularity or wrongdoing. Patterns are descriptive and may reflect scope or market factors.') }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="observations-empty">
+        <p>✓ No significant statistical patterns detected. All metrics remain within expected ranges.</p>
+    </div>
+    {% endif %}
+</section>
+
+<!-- DATA TABLE SECTION -->
+<section class="section section--table">
+    
+    <div class="table-header-bar">
+        <div class="table-header-bar__left">
+            <h2 class="section__title">📋 Detailed Project Data</h2>
+            <p class="table-meta">Showing <strong>{{ table_data | length }}</strong> project(s)</p>
+        </div>
+        <div class="table-header-bar__right">
+            <input type="text" class="table-search" id="table-search" placeholder="🔍 Search by vendor or district..." />
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="data-table data-table--research">
+            <thead>
+                <tr>
+                    <th class="col-year">Year</th>
+                    <th class="col-district">District</th>
+                    <th class="col-road-type">Road Type</th>
+                    <th class="col-length">Length (km)</th>
+                    <th class="col-vendor">Vendor</th>
+                    <th class="col-spending" title="All values inflation-adjusted to 2024">Spending (₹)</th>
+                    <th class="col-cost-km" title="Color indicates: green = below median, amber = above median">Cost / Km</th>
+                    <th class="col-bidders" title="Badge color indicates competition level">Competition</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table_data %}
+                <tr class="data-row">
+                    <td class="col-year">{{ row.Award_Year }}</td>
+                    <td class="col-district"><strong>{{ row.District }}</strong></td>
+                    <td class="col-road-type"><span class="badge badge--road-type">{{ row.Road_Type }}</span></td>
+                    <td class="col-length">{{ '%.2f'|format(row.Project_Length_km) }}</td>
+                    <td class="col-vendor">{{ row.Vendor_Name }}</td>
+                    <td class="col-spending">₹{{ '%.2f'|format(row.Tender_Value_Adjusted_Rs / 10000000) }} Cr</td>
+                    <td class="col-cost-km">
+                        {% set median_cost = table_data | map(attribute='Cost_Per_Km') | list | sort | list %}
+                        {% set median_val = median_cost[median_cost|length//2] if median_cost else 0 %}
+                        <span class="cost-indicator {% if row.Cost_Per_Km > median_val %}cost-indicator--above{% else %}cost-indicator--below{% endif %}" 
+                              title="{% if row.Cost_Per_Km > median_val %}Above median cost per km for this dataset{% else %}Below or at median cost per km for this dataset{% endif %}">
+                            ₹{{ '%.0f'|format(row.Cost_Per_Km / 1000000) }}M
+                        </span>
+                    </td>
+                    <td class="col-bidders">
+                        <span class="competition-badge competition-badge--{{ 'limited' if row.Bidders_Count <= 2 else 'moderate' if row.Bidders_Count <= 4 else 'healthy' }}"
+                              title="{% if row.Bidders_Count <= 2 %}Limited bidder participation (1-2 bidders){% elif row.Bidders_Count <= 4 %}Moderate competition (3-4 bidders){% else %}Healthy competition (5+ bidders){% endif %}">
+                            {{ row.Bidders_Count }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-footer">
+        <p class="table-note">
+            <strong>Data Note:</strong> All spending values are inflation-adjusted to 2024 base year using CPI indices. 
+            Cost/Km comparisons are against dataset median. Competition badges reflect bidder count per tender.
+        </p>
+    </div>
+
+</section>
