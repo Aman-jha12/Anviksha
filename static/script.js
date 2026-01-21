@@ -34,14 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize table interactions
     initializeTableInteractions();
+    setupTableSearch();
 });
 
 // HTMX Event Listeners
 document.addEventListener('htmx:beforeRequest', function(evt) {
-    console.log('Filter request initiated');
+    console.log('HTMX request starting...');
 });
 
 document.addEventListener('htmx:afterRequest', function(evt) {
+    console.log('HTMX request completed');
     if (evt.detail.xhr.status === 200) {
         console.log('✓ Filters applied successfully');
         // Smooth scroll to results
@@ -55,7 +57,7 @@ document.addEventListener('htmx:afterRequest', function(evt) {
 });
 
 document.addEventListener('htmx:responseError', function(evt) {
-    console.error('Filter error:', evt.detail.error);
+    console.error('HTMX error:', evt.detail);
     alert('Error updating filters. Please try again.');
 });
 
@@ -126,3 +128,73 @@ function initializeTableInteractions() {
         });
     });
 }
+
+// Table search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, initializing...');
+    setupTableSearch();
+});
+
+// Re-setup search after HTMX swap
+document.body.addEventListener('htmx:afterSwap', function(event) {
+    console.log('HTMX swap detected');
+    if (event.detail.target.id === 'results-container') {
+        setupTableSearch();
+    }
+});
+
+function setupTableSearch() {
+    const searchInput = document.getElementById('table-search');
+    if (!searchInput) {
+        console.log('Search input not found');
+        return;
+    }
+    
+    console.log('Setting up table search');
+    
+    // Remove existing listeners
+    const newSearchInput = searchInput.cloneNode(true);
+    searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+    
+    newSearchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        const tableBody = document.getElementById('table-body');
+        
+        if (!tableBody) {
+            console.log('Table body not found');
+            return;
+        }
+        
+        const rows = tableBody.getElementsByTagName('tr');
+        let visibleCount = 0;
+        
+        for (let row of rows) {
+            // Skip the "no data" row
+            if (row.cells.length === 1) continue;
+            
+            const text = row.textContent.toLowerCase();
+            if (searchTerm === '' || text.includes(searchTerm)) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+        
+        console.log(`Search: "${searchTerm}" - ${visibleCount} rows visible`);
+    });
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});

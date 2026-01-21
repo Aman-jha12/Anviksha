@@ -43,3 +43,47 @@ contract_value,vendor_name,contract_date,department,description,num_bidders,cate
 4300000,ABC Construction Pvt Ltd,2023-09-28,Rural Development,Rural road construction,3,Road Construction
 5600000,DEF Builders Pvt Ltd,2024-02-15,Public Works,Road improvement project,7,Road Construction
 4800000,ABC Construction Pvt Ltd,2024-07-30,Rural Development,Road construction - Final phase,4,Road Construction
+2600000,Howrah Infra Projects Ltd,2018-01-18,Rural Development,Village road construction - Howrah block A,5,Road Construction,Howrah
+3100000,ABC Construction Pvt Ltd,2018-04-22,Rural Development,Rural road improvement - Howrah zone,4,Road Construction,Howrah
+4700000,Delta Roadways Pvt Ltd,2018-08-10,Public Works,Urban road construction - Howrah city,7,Road Construction,Howrah
+3900000,Gamma Builders Pvt Ltd,2018-11-05,Public Works,Road repair and resurfacing - Howrah,6,Road Construction,Howrah
+
+2800000,XYZ Infrastructure Private Limited,2019-02-12,Rural Development,Gram panchayat road construction - Howrah,5,Road Construction,Howrah
+5200000,Modern Constructions Ltd,2019-05-28,Public Works,Urban road widening - Howrah municipal area,8,Road Construction,Howrah
+3600000,ABC Construction Pvt Ltd,2019-09-14,Rural Development,Village connectivity road - Howrah block B,3,Road Construction,Howrah
+6100000,Delta Roadways Pvt Ltd,2019-12-20,Public Works,State road construction - Howrah stretch,9,Road Construction,Howrah
+
+3400000,ABC Construction Pvt Ltd,2020-01-16,Rural Development,Road construction with culvert - Howrah,4,Road Construction,Howrah
+4800000,Gamma Builders Pvt Ltd,2020-03-25,Public Works,Highway maintenance - Howrah section,7,Road Construction,Howrah
+4200000,Modern Constructions Ltd,2020-07-19,Rural Development,Rural road connectivity phase 1 - Howrah,6,Road Construction,Howrah
+9500000,Delta Roadways Pvt Ltd,2020-10-08,Public Works,Major road construction - Howrah urban corridor,10,Road Construction,Howrah
+
+3700000,XYZ Infrastructure Private Limited,2021-02-06,Rural Development,Block level road construction - Howrah,5,Road Construction,Howrah
+5500000,Gamma Builders Pvt Ltd,2021-04-18,Public Works,Urban road strengthening - Howrah,8,Road Construction,Howrah
+4100000,ABC Construction Pvt Ltd,2021-08-27,Rural Development,Village road construction - Howrah south,3,Road Construction,Howrah
+7200000,Delta Roadways Pvt Ltd,2021-11-30,Public Works,Highway repair and construction - Howrah,9,Road Construction,Howrah
+
+4600000,Modern Constructions Ltd,2022-01-24,Rural Development,Road improvement project - Howrah rural belt,6,Road Construction,Howrah
+6300000,XYZ Infrastructure Private Limited,2022-05-11,Public Works,State highway construction - Howrah district,10,Road Construction,Howrah
+3800000,ABC Construction Pvt Ltd,2022-08-19,Rural Development,Village road construction phase 2 - Howrah,4,Road Construction,Howrah
+8200000,Delta Roadways Pvt Ltd,2022-12-06,Public Works,Major urban road project - Howrah,11,Road Construction,Howrah
+
+5100000,Gamma Builders Pvt Ltd,2023-02-14,Public Works,Highway resurfacing project - Howrah,7,Road Construction,Howrah
+4300000,ABC Construction Pvt Ltd,2023-05-21,Rural Development,Rural road construction - Howrah north,3,Road Construction,Howrah
+6900000,Modern Constructions Ltd,2023-09-02,Public Works,Urban road development - Howrah phase 2,12,Road Construction,Howrah
+7600000,XYZ Infrastructure Private Limited,2023-11-18,Rural Development,Road and bridge construction - Howrah,6,Road Construction,Howrah
+
+5800000,Delta Roadways Pvt Ltd,2024-01-27,Public Works,Highway construction - Howrah bypass,9,Road Construction,Howrah
+4400000,ABC Construction Pvt Ltd,2024-04-09,Rural Development,Village road improvement - Howrah block C,4,Road Construction,Howrah
+6700000,Gamma Builders Pvt Ltd,2024-07-12,Public Works,State road widening - Howrah district,8,Road Construction,Howrah
+5200000,Modern Constructions Ltd,2024-10-03,Rural Development,Road construction - Howrah final phase,5,Road Construction,Howrah
+3900000,ABC Construction Pvt Ltd,2018-12-18,Rural Development,Road resurfacing work - Howrah rural zone,4,Road Construction,Howrah
+6100000,Delta Roadways Pvt Ltd,2019-06-09,Public Works,Urban road strengthening - Howrah city,9,Road Construction,Howrah
+4500000,Modern Constructions Ltd,2019-10-26,Rural Development,Village road connectivity improvement - Howrah,5,Road Construction,Howrah
+5200000,Gamma Builders Pvt Ltd,2020-05-14,Public Works,Highway maintenance and repair - Howrah stretch,7,Road Construction,Howrah
+4800000,ABC Construction Pvt Ltd,2020-09-29,Rural Development,Road construction with drainage - Howrah block D,3,Road Construction,Howrah
+7400000,XYZ Infrastructure Private Limited,2021-07-08,Public Works,State highway widening project - Howrah,10,Road Construction,Howrah
+4300000,ABC Construction Pvt Ltd,2022-04-16,Rural Development,Rural road improvement project - Howrah east,4,Road Construction,Howrah
+6800000,Delta Roadways Pvt Ltd,2022-11-21,Public Works,Major road construction - Howrah municipal area,11,Road Construction,Howrah
+5600000,Gamma Builders Pvt Ltd,2023-06-30,Public Works,Highway repair project - Howrah district,8,Road Construction,Howrah
+4900000,Modern Constructions Ltd,2024-09-11,Rural Development,Road construction and finishing work - Howrah,5,Road Construction,Howrah

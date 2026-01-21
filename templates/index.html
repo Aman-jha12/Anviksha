@@ -178,7 +178,7 @@
 
             <!-- FILTERS SECTION -->
             <section class="section section--filters">
-                <h2 class="section__title">🗺️ Explore by Region</h2>
+                <h2 class="section__title">🗺️ Explore by Filters</h2>
                 
                 <form hx-post="/filter" hx-target="#results-container" hx-indicator="#loading-spinner" class="filter-form">
                     <div class="filter-card">
@@ -199,9 +199,19 @@
                                 {% endfor %}
                             </select>
                         </div>
+
+                        <div class="filter-group">
+                            <label for="year" class="filter-label">Year</label>
+                            <select id="year" name="year" class="filter-input" hx-trigger="change">
+                                <option value="all">All Years</option>
+                                {% for yr in years %}
+                                <option value="{{ yr }}">{{ yr }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
 
-                    <p class="filter-helper">📊 Analysis updates automatically based on selection</p>
+                    <p class="filter-helper">📊 All sections (metrics, charts, and data table) update automatically based on your selection</p>
                     <div id="loading-spinner" class="loading-indicator htmx-indicator">
                         <span class="spinner"></span> Updating analysis...
                     </div>

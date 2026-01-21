@@ -1,6 +1,12 @@
+<!-- CACHE CONTROL - Force reload on every request -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 <!-- OVERVIEW METRICS -->
 <section class="metrics-section">
     <h2 class="section-title">Overview</h2>
+    <p class="metrics-subtitle">Based on current filter selection</p>
     
     <div class="metrics-grid">
         <!-- Primary Metric -->
@@ -16,7 +22,7 @@
                     ₹0
                 {% endif %}
             </div>
-            <p class="metric-subtext">Inflation-adjusted expenditure across selected filters</p>
+            <p class="metric-subtext">Inflation-adjusted expenditure for selected filters</p>
         </div>
 
         <!-- Secondary Metrics -->
@@ -58,6 +64,7 @@
 <!-- STATISTICAL OBSERVATIONS -->
 <section class="observations-section">
     <h2 class="section-title">Statistical Observations</h2>
+    <p class="observations-subtitle">Based on current filter selection</p>
     
     <div class="observations-grid">
         {% if observations %}
@@ -79,7 +86,8 @@
 
 <!-- DETAILED DATA TABLE -->
 <section class="table-section">
-    <h2 class="section-title">Detailed Project Data</h2>
+    <h2 class="section-title">Detailed Project </h2>
+    <p class="table-subtitle">Showing data for current filter selection</p>
     
     <div class="table-wrapper">
         <table class="data-table">

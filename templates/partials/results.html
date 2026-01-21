@@ -9,7 +9,14 @@
             {% if insight_summary and insight_summary|trim %}
                 {{ insight_summary | safe }}
             {% else %}
-                For {{ stats.time_range }}, total inflation-adjusted spending was
+                For {{ stats.time_range }},
+                {% if selected_filters %}
+                    filtered by
+                    {% if selected_filters.district != 'all' %}<strong>{{ selected_filters.district }}</strong>{% endif %}
+                    {% if selected_filters.department != 'all' %}department <strong>{{ selected_filters.department }}</strong>{% endif %}
+                    {% if selected_filters.year != 'all' %}year <strong>{{ selected_filters.year }}</strong>{% endif %},
+                {% endif %}
+                total inflation-adjusted spending was
                 <strong>₹{{ '%.2f'|format(stats.total_spending/10000000) }} crore</strong>
                 across <strong>{{ stats.total_projects }}</strong> project(s).
                 Average cost per km was <strong>₹{{ '%.2f'|format(stats.avg_cost_per_km) }} lakh</strong>.
@@ -250,7 +257,7 @@
     <div class="table-header-bar">
         <div class="table-header-bar__left">
             <h2 class="section__title">📋 Detailed Project Data</h2>
-            <p class="table-meta">Showing <strong>{{ table_data | length }}</strong> project(s)</p>
+            <p class="table-meta">Showing <strong>{{ table_data | length }}</strong> of <strong>{{ stats.total_projects }}</strong> project(s)</p>
         </div>
         <div class="table-header-bar__right">
             <input type="text" class="table-search" id="table-search" placeholder="🔍 Search by vendor or district..." />
@@ -271,31 +278,38 @@
                     <th class="col-bidders" title="Badge color indicates competition level">Competition</th>
                 </tr>
             </thead>
-            <tbody>
-                {% for row in table_data %}
-                <tr class="data-row">
-                    <td class="col-year">{{ row.Award_Year }}</td>
-                    <td class="col-district"><strong>{{ row.District }}</strong></td>
-                    <td class="col-road-type"><span class="badge badge--road-type">{{ row.Road_Type }}</span></td>
-                    <td class="col-length">{{ '%.2f'|format(row.Project_Length_km) }}</td>
-                    <td class="col-vendor">{{ row.Vendor_Name }}</td>
-                    <td class="col-spending">₹{{ '%.2f'|format(row.Tender_Value_Adjusted_Rs / 10000000) }} Cr</td>
-                    <td class="col-cost-km">
-                        {% set median_cost = table_data | map(attribute='Cost_Per_Km') | list | sort | list %}
-                        {% set median_val = median_cost[median_cost|length//2] if median_cost else 0 %}
-                        <span class="cost-indicator {% if row.Cost_Per_Km > median_val %}cost-indicator--above{% else %}cost-indicator--below{% endif %}" 
-                              title="{% if row.Cost_Per_Km > median_val %}Above median cost per km for this dataset{% else %}Below or at median cost per km for this dataset{% endif %}">
-                            ₹{{ '%.0f'|format(row.Cost_Per_Km / 1000000) }}M
-                        </span>
-                    </td>
-                    <td class="col-bidders">
-                        <span class="competition-badge competition-badge--{{ 'limited' if row.Bidders_Count <= 2 else 'moderate' if row.Bidders_Count <= 4 else 'healthy' }}"
-                              title="{% if row.Bidders_Count <= 2 %}Limited bidder participation (1-2 bidders){% elif row.Bidders_Count <= 4 %}Moderate competition (3-4 bidders){% else %}Healthy competition (5+ bidders){% endif %}">
-                            {{ row.Bidders_Count }}
-                        </span>
-                    </td>
-                </tr>
-                {% endfor %}
+            <tbody id="table-body">
+                {% if table_data and table_data|length > 0 %}
+                    {% for row in table_data %}
+                    <tr class="data-row">
+                        <td class="col-year">{{ row.Award_Year }}</td>
+                        <td class="col-district"><strong>{{ row.District }}</strong></td>
+                        <td class="col-road-type"><span class="badge badge--road-type">{{ row.get('Road_Type', 'N/A') }}</span></td>
+                        <td class="col-length">{{ '%.2f'|format(row.Project_Length_km) }}</td>
+                        <td class="col-vendor">{{ row.get('Vendor_Name', 'N/A') }}</td>
+                        <td class="col-spending">₹{{ '%.2f'|format(row.Tender_Value_Adjusted_Rs / 10000000) }} Cr</td>
+                        <td class="col-cost-km">
+                            {% set cost_per_km = row.Tender_Value_Adjusted_Rs / row.Project_Length_km if row.Project_Length_km > 0 else 0 %}
+                            <span class="cost-indicator cost-indicator--below" 
+                                  title="Cost per km for this project">
+                                ₹{{ '%.0f'|format(cost_per_km / 1000000) }}M
+                            </span>
+                        </td>
+                        <td class="col-bidders">
+                            <span class="competition-badge competition-badge--{{ 'limited' if row.get('Bidders_Count', 0) <= 2 else 'moderate' if row.get('Bidders_Count', 0) <= 4 else 'healthy' }}"
+                                  title="Bidder count: {{ row.get('Bidders_Count', 0) }}">
+                                {{ row.get('Bidders_Count', 'N/A') }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #6b7280;">
+                            No data available for the selected filters. Try changing your filter selection.
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
@@ -303,7 +317,9 @@
     <div class="table-footer">
         <p class="table-note">
             <strong>Data Note:</strong> All spending values are inflation-adjusted to 2024 base year using CPI indices. 
-            Cost/Km comparisons are against dataset median. Competition badges reflect bidder count per tender.
+            {% if table_data|length < stats.total_projects %}
+                Showing first {{ table_data|length }} records. Download full dataset using export buttons above.
+            {% endif %}
         </p>
     </div>
 
