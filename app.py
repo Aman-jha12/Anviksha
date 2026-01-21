@@ -9,6 +9,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import StreamingResponse, HTMLResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
@@ -16,30 +17,30 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import traceback
-from flask import Flask, send_from_directory
+import time
+
+# Custom middleware to disable caching
+class NoCacheMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        print(f"🔄 Response headers set for: {request.url.path}")
+        return response
 
 app = FastAPI()
+
+# Add no-cache middleware FIRST
+app.add_middleware(NoCacheMiddleware)
+
+# Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Disable caching completely for development
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.config['TEMPLATES_AUTO_RELOAD'] = True
-
-@app.after_request
-def add_no_cache_headers(response):
-    """Add headers to disable caching on all responses"""
-    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '-1'
-    return response
-
-# Override static file serving to prevent caching
-@app.route('/static/<path:filename>')
-def custom_static(filename):
-    response = send_from_directory(app.static_folder, filename)
-    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-    return response
+# Add auto-reload for templates
+templates.env.auto_reload = True
 
 # Global variable to cache data
 _cached_data = None
@@ -54,14 +55,20 @@ def load_data():
     try:
         df = pd.read_csv('sample_data/west_bengal_road_tenders_sample.csv')
         
+        print(f"📂 Raw CSV loaded: {len(df)} rows")
+        print(f"📋 Columns: {df.columns.tolist()}")
+        
         # Clean data
-        df['Award_Year'] = pd.to_numeric(df['Award_Year'], errors='coerce').dropna().astype(int)
+        df['Award_Year'] = pd.to_numeric(df['Award_Year'], errors='coerce')
+        df = df.dropna(subset=['Award_Year'])
+        df['Award_Year'] = df['Award_Year'].astype(int)
+        
         df['Project_Length_km'] = pd.to_numeric(df['Project_Length_km'], errors='coerce').fillna(0)
         df['Tender_Value_Adjusted_Rs'] = pd.to_numeric(df['Tender_Value_Adjusted_Rs'], errors='coerce').fillna(0)
         
         for col in ['District', 'Department', 'Vendor_Name', 'Road_Type', 'Project_Name']:
             if col in df.columns:
-                df[col] = df[col].fillna('Unknown').astype(str)
+                df[col] = df[col].fillna('Unknown').astype(str).str.strip()
         
         if 'Bidders_Count' in df.columns:
             df['Bidders_Count'] = pd.to_numeric(df['Bidders_Count'], errors='coerce').fillna(0).astype(int)
@@ -76,7 +83,8 @@ def load_data():
         
         print(f"✅ DATA LOADED: {len(df)} rows")
         print(f"📅 Years: {sorted(df['Award_Year'].unique())}")
-        print(f"📍 Districts: {df['District'].nunique()}")
+        print(f"📍 Districts ({df['District'].nunique()}): {sorted(df['District'].unique())}")
+        print(f"🏢 Departments ({df['Department'].nunique()}): {sorted(df['Department'].unique())}")
         
         return df.copy()
         
@@ -99,7 +107,10 @@ def calculate_stats(df):
     total_spending = float(df['Tender_Value_Adjusted_Rs'].sum())
     total_projects = len(df)
     total_length = float(df['Project_Length_km'].sum())
+    
+    # Calculate avg cost per km (in Rs, not lakhs)
     avg_cost_per_km = (total_spending / total_length) if total_length > 0 else 0
+    
     districts_count = int(df['District'].nunique())
     
     years = sorted(df['Award_Year'].unique())
@@ -108,38 +119,98 @@ def calculate_stats(df):
     return {
         'total_spending': total_spending,
         'total_projects': total_projects,
-        'avg_cost_per_km': avg_cost_per_km,
+        'avg_cost_per_km': avg_cost_per_km,  # This is now in rupees
         'districts_count': districts_count,
         'time_range': time_range
     }
 
 def detect_patterns(df):
-    """Detect patterns"""
+    """Detect statistical patterns in the data"""
     observations = []
     
     if df.empty or len(df) < 10:
         return observations
     
     try:
-        threshold = df['Tender_Value_Adjusted_Rs'].quantile(0.90)
-        high_cost = df[df['Tender_Value_Adjusted_Rs'] > threshold]
+        # 1. HIGH-COST OUTLIERS (using IQR method)
+        q3 = df['Tender_Value_Adjusted_Rs'].quantile(0.75)
+        q1 = df['Tender_Value_Adjusted_Rs'].quantile(0.25)
+        iqr = q3 - q1
+        outlier_threshold = q3 + 1.5 * iqr
+        median_value = df['Tender_Value_Adjusted_Rs'].median()
         
-        if len(high_cost) > 0:
+        high_cost = df[df['Tender_Value_Adjusted_Rs'] > outlier_threshold]
+        
+        for _, row in high_cost.iterrows():
+            ratio = row['Tender_Value_Adjusted_Rs'] / median_value if median_value > 0 else 1
+            percentile = (df['Tender_Value_Adjusted_Rs'] <= row['Tender_Value_Adjusted_Rs']).sum() / len(df) * 100
+            
             observations.append({
                 'type': 'high_cost',
-                'title': 'High-Value Projects Detected',
-                'description': f'{len(high_cost)} project(s) exceed 90th percentile (₹{threshold/10000000:.2f} Cr).',
+                'title': 'High-Value Project Detected',
+                'description': (
+                    f"Project '{row['Project_Name']}' in {row['District']} has an inflation-adjusted value of "
+                    f"₹{row['Tender_Value_Adjusted_Rs']/10000000:.2f} Cr, which is {ratio:.1f}× the median value "
+                    f"(₹{median_value/10000000:.2f} Cr). This places it in the {percentile:.0f}th percentile."
+                ),
                 'confidence': 'High',
-                'confidence_reason': '90th percentile threshold',
-                'does_not_imply': 'Inefficiency. May reflect project complexity.'
+                'confidence_reason': 'Statistical deviation detected via IQR method (>Q3 + 1.5×IQR)',
+                'does_not_imply': 'Inefficiency or wrongdoing. High values may reflect project complexity, scope, terrain difficulty, or specialized requirements.'
             })
-    except:
-        pass
+        
+        # 2. LOW COMPETITION + HIGH VALUE
+        if 'Bidders_Count' in df.columns:
+            low_bidder_threshold = 3
+            high_value_threshold = df['Tender_Value_Adjusted_Rs'].quantile(0.75)
+            median_bidders = df['Bidders_Count'].median()
+            
+            low_competition = df[
+                (df['Bidders_Count'] <= low_bidder_threshold) & 
+                (df['Tender_Value_Adjusted_Rs'] > high_value_threshold)
+            ]
+            
+            for _, row in low_competition.iterrows():
+                observations.append({
+                    'type': 'low_competition',
+                    'title': 'Limited Bidder Participation Observed',
+                    'description': (
+                        f"Project '{row['Project_Name']}' received {int(row['Bidders_Count'])} bidder(s) "
+                        f"(compared to a median of {median_bidders:.0f} bidders across all projects). "
+                        f"The contract value is ₹{row['Tender_Value_Adjusted_Rs']/10000000:.2f} Cr, which is in the top quartile."
+                    ),
+                    'confidence': 'Medium',
+                    'confidence_reason': 'Rule-based detection: bidders ≤3 AND value ≥75th percentile',
+                    'does_not_imply': 'Restricted bidding or improper procurement. May indicate specialized requirements, remote location, or limited vendor availability in the district.'
+                })
+        
+        # 3. VENDOR CONCENTRATION
+        vendor_counts = df.groupby('Vendor_Name').size()
+        total_projects = len(df)
+        high_concentration_vendors = vendor_counts[vendor_counts / total_projects > 0.2]
+        
+        for vendor_name, count in high_concentration_vendors.items():
+            vendor_total = df[df['Vendor_Name'] == vendor_name]['Tender_Value_Adjusted_Rs'].sum()
+            observations.append({
+                'type': 'vendor_concentration',
+                'title': 'Vendor Market Share Pattern',
+                'description': (
+                    f"{vendor_name} has been awarded {count} project(s) ({count/total_projects*100:.1f}% of total) "
+                    f"with a combined value of ₹{vendor_total/10000000:.2f} Cr in the current selection."
+                ),
+                'confidence': 'Medium',
+                'confidence_reason': 'Descriptive market share calculation (>20% of projects)',
+                'does_not_imply': 'Favoritism or irregularity. High share may reflect vendor capability, experience, competitive pricing, or limited competition in specialized categories.'
+            })
+    
+    except Exception as e:
+        print(f"Error in detect_patterns: {e}")
+        import traceback
+        traceback.print_exc()
     
     return observations
 
 def generate_year_chart(df):
-    """Generate year chart"""
+    """Generate year-wise spending chart"""
     if df.empty:
         return ""
     
@@ -150,21 +221,22 @@ def generate_year_chart(df):
         ax.plot(yearly.index, yearly.values / 10000000, marker='o', linewidth=2, color='#3b82f6')
         ax.set_xlabel('Year', fontsize=12, fontweight='bold')
         ax.set_ylabel('Spending (₹ Crore)', fontsize=12)
-        ax.set_title('Year-wise Spending', fontsize=14, fontweight='bold')
+        ax.set_title('Year-wise Spending Trend', fontsize=14, fontweight='bold')
         ax.grid(True, alpha=0.3)
         plt.tight_layout()
         
         buf = io.BytesIO()
-        plt.savefig(buf, format='png', dpi=100)
+        plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
         buf.seek(0)
         img = base64.b64encode(buf.read()).decode('utf-8')
         plt.close()
         return img
-    except:
+    except Exception as e:
+        print(f"Error generating year chart: {e}")
         return ""
 
 def generate_district_chart(df):
-    """Generate district chart"""
+    """Generate district-wise spending chart"""
     if df.empty:
         return ""
     
@@ -173,22 +245,24 @@ def generate_district_chart(df):
         
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.barh(district.index, district.values / 10000000, color='#10b981')
-        ax.set_xlabel('Spending (₹ Crore)', fontsize=12)
-        ax.set_ylabel('District', fontsize=12)
-        ax.set_title('Top Districts', fontsize=14, fontweight='bold')
+        ax.set_xlabel('Spending (₹ Crore)', fontsize=12, fontweight='bold')
+        ax.set_ylabel('District', fontsize=12, fontweight='bold')
+        ax.set_title('Top 10 Districts by Spending', fontsize=14, fontweight='bold')
+        ax.invert_yaxis()
         plt.tight_layout()
         
         buf = io.BytesIO()
-        plt.savefig(buf, format='png', dpi=100)
+        plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
         buf.seek(0)
         img = base64.b64encode(buf.read()).decode('utf-8')
         plt.close()
         return img
-    except:
+    except Exception as e:
+        print(f"Error generating district chart: {e}")
         return ""
 
 def generate_vendor_chart(df):
-    """Generate vendor chart"""
+    """Generate vendor-wise spending chart"""
     if df.empty or 'Vendor_Name' not in df.columns:
         return ""
     
@@ -197,26 +271,32 @@ def generate_vendor_chart(df):
         
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.barh(vendor.index, vendor.values / 10000000, color='#f59e0b')
-        ax.set_xlabel('Contract Value (₹ Crore)', fontsize=12)
-        ax.set_ylabel('Vendor', fontsize=12)
-        ax.set_title('Top Vendors', fontsize=14, fontweight='bold')
+        ax.set_xlabel('Contract Value (₹ Crore)', fontsize=12, fontweight='bold')
+        ax.set_ylabel('Vendor', fontsize=12, fontweight='bold')
+        ax.set_title('Top 5 Vendors by Contract Value', fontsize=14, fontweight='bold')
+        ax.invert_yaxis()
         plt.tight_layout()
         
         buf = io.BytesIO()
-        plt.savefig(buf, format='png', dpi=100)
+        plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
         buf.seek(0)
         img = base64.b64encode(buf.read()).decode('utf-8')
         plt.close()
         return img
-    except:
+    except Exception as e:
+        print(f"Error generating vendor chart: {e}")
         return ""
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page"""
     print("\n" + "="*50)
-    print("HOME PAGE REQUEST")
+    print(f"HOME PAGE REQUEST at {time.strftime('%H:%M:%S')}")
     print("="*50)
+    
+    # Clear cache to force reload
+    global _cached_data
+    _cached_data = None
     
     df = load_data()
     
@@ -226,17 +306,25 @@ async def home(request: Request):
         departments = ['all']
         years = []
     else:
-        districts = ['all'] + sorted(df['District'].unique().tolist())
-        departments = ['all'] + sorted(df['Department'].unique().tolist())
+        # Get unique districts and departments
+        unique_districts = sorted(df['District'].unique().tolist())
+        unique_departments = sorted(df['Department'].unique().tolist())
+        
+        districts = ['all'] + unique_districts
+        departments = ['all'] + unique_departments
         years = sorted(df['Award_Year'].unique().tolist(), reverse=True)
         
         print(f"✅ Data loaded: {len(df)} rows")
-        print(f"📅 Years: {years}")
-        print(f"📍 Districts: {len(districts)-1}")
-        print(f"🏢 Departments: {len(departments)-1}")
+        print(f"📅 Years ({len(years)}): {years}")
+        print(f"📍 Districts ({len(unique_districts)}): {unique_districts}")
+        print(f"🏢 Departments ({len(unique_departments)}): {unique_departments}")
     
     stats = calculate_stats(df)
     observations = detect_patterns(df)
+    
+    print(f"🔍 Observations detected: {len(observations)}")
+    for obs in observations:
+        print(f"  - {obs['type']}: {obs['title']}")
     
     year_chart = generate_year_chart(df)
     district_chart = generate_district_chart(df)
@@ -258,9 +346,11 @@ async def home(request: Request):
             vs = df.groupby('Vendor_Name')['Tender_Value_Adjusted_Rs'].sum().reset_index().nlargest(5, 'Tender_Value_Adjusted_Rs')
             vendor_stats = vs.rename(columns={'Tender_Value_Adjusted_Rs': 'Total_Value'}).to_dict('records')
     
+    # FIX: Convert DataFrame to list of dicts
     table_data = df.head(100).to_dict('records') if not df.empty else []
     
     print(f"📊 Table rows: {len(table_data)}")
+    print(f"🔄 Template will reload: templates/index.html")
     print("="*50 + "\n")
     
     context = {
@@ -309,6 +399,8 @@ async def filter_data(request: Request, district: str = Form(...), department: s
     stats = calculate_stats(df)
     observations = detect_patterns(df)
     
+    print(f"🔍 Filtered observations: {len(observations)}")
+    
     year_chart = generate_year_chart(df)
     district_chart = generate_district_chart(df)
     vendor_chart = generate_vendor_chart(df)
@@ -328,6 +420,7 @@ async def filter_data(request: Request, district: str = Form(...), department: s
             vs = df.groupby('Vendor_Name')['Tender_Value_Adjusted_Rs'].sum().reset_index().nlargest(5, 'Tender_Value_Adjusted_Rs')
             vendor_stats = vs.rename(columns={'Tender_Value_Adjusted_Rs': 'Total_Value'}).to_dict('records')
     
+    # FIX: Convert DataFrame to list of dicts
     table_data = df.head(100).to_dict('records') if not df.empty else []
     
     print(f"✅ Returning {len(table_data)} rows")
@@ -349,38 +442,13 @@ async def filter_data(request: Request, district: str = Form(...), department: s
     
     return templates.TemplateResponse("partials/results.html", context)
 
-@app.get("/export/summary")
-async def export_summary():
-    df = load_data()
-    if df.empty:
-        return StreamingResponse(iter(["No data\n"]), media_type="text/csv")
-    
-    summary = df.groupby(['Award_Year', 'District', 'Department']).agg({
-        'Tender_Value_Adjusted_Rs': 'sum',
-        'Project_Length_km': 'sum'
-    }).reset_index()
-    
-    stream = io.StringIO()
-    summary.to_csv(stream, index=False)
-    response = StreamingResponse(iter([stream.getvalue()]), media_type="text/csv")
-    response.headers["Content-Disposition"] = "attachment; filename=summary.csv"
-    return response
-
-@app.get("/export/detailed")
-async def export_detailed():
-    df = load_data()
-    if df.empty:
-        return StreamingResponse(iter(["No data\n"]), media_type="text/csv")
-    
-    stream = io.StringIO()
-    df.to_csv(stream, index=False)
-    response = StreamingResponse(iter([stream.getvalue()]), media_type="text/csv")
-    response.headers["Content-Disposition"] = "attachment; filename=detailed.csv"
-    return response
+# ...existing code...
 
 if __name__ == "__main__":
     import uvicorn
     print("\n🚀 Starting Anviksha server...")
     print("📂 Looking for data at: sample_data/west_bengal_road_tenders_sample.csv")
-    print("🌐 Open browser at: http://localhost:8000\n")
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
+    print("🌐 Open browser at: http://localhost:8000")
+    print("⚠️  CACHE DISABLED - Changes will appear immediately")
+    print("🔄 AUTO-RELOAD ENABLED\n")
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info", reload=True)

@@ -1,89 +1,73 @@
-contract_value,vendor_name,contract_date,department,description,num_bidders,category
-2500000,ABC Construction Pvt Ltd,2018-03-15,Rural Development,Road construction - Village road connectivity project,5,Road Construction
-5200000,XYZ Infrastructure Private Limited,2018-06-20,Public Works,Highway widening project - NH 34,8,Road Construction
-1800000,West Bengal Builders Ltd,2018-09-10,Rural Development,Village road construction and repair,3,Road Construction
-7500000,Delta Roadways Pvt Ltd,2018-12-05,Public Works,Major road construction - State Highway,12,Road Construction
-3200000,ABC Construction Pvt Ltd,2019-02-18,Rural Development,Road construction - Block level connectivity,4,Road Construction
-4500000,Modern Constructions Ltd,2019-05-22,Public Works,Urban road improvement project,6,Road Construction
-2800000,XYZ Infrastructure Private Limited,2019-08-30,Rural Development,Rural road construction - Panchayat project,5,Road Construction
-6200000,Gamma Builders Pvt Ltd,2019-11-15,Public Works,Bridge and road construction project,9,Road Construction
-3500000,ABC Construction Pvt Ltd,2020-01-25,Rural Development,Road construction and culvert repair,4,Road Construction
-5800000,Delta Roadways Pvt Ltd,2020-04-12,Public Works,Highway maintenance and construction,7,Road Construction
-4200000,Modern Constructions Ltd,2020-07-08,Rural Development,Village road connectivity - Phase 2,6,Road Construction
-25000000,ABC Construction Pvt Ltd,2020-10-20,Rural Development,Road construction project - Major village connectivity,2,Road Construction
-3800000,XYZ Infrastructure Private Limited,2021-02-14,Public Works,Urban road development project,8,Road Construction
-4900000,Gamma Builders Pvt Ltd,2021-05-30,Rural Development,Rural road construction - District level,5,Road Construction
-5500000,Delta Roadways Pvt Ltd,2021-09-18,Public Works,Highway construction and repair work,10,Road Construction
-4200000,ABC Construction Pvt Ltd,2021-12-03,Rural Development,Road construction - Village connectivity,3,Road Construction
-6800000,Modern Constructions Ltd,2022-03-22,Public Works,State Highway improvement project,9,Road Construction
-5100000,XYZ Infrastructure Private Limited,2022-06-15,Rural Development,Road and bridge construction,7,Road Construction
-4500000,ABC Construction Pvt Ltd,2022-09-28,Public Works,Urban road construction project,4,Road Construction
-8500000,Delta Roadways Pvt Ltd,2022-12-10,Rural Development,Major road construction - Block headquarters,11,Road Construction
-4800000,Gamma Builders Pvt Ltd,2023-02-20,Public Works,Highway widening and maintenance,8,Road Construction
-5200000,ABC Construction Pvt Ltd,2023-05-15,Rural Development,Road construction - Village road project,2,Road Construction
-6000000,Modern Constructions Ltd,2023-08-22,Public Works,Urban road development - Phase 3,12,Road Construction
-7200000,XYZ Infrastructure Private Limited,2023-11-05,Rural Development,Rural road construction and repair,6,Road Construction
-38000000,ABC Construction Pvt Ltd,2024-01-30,Rural Development,Road construction - Major connectivity project,1,Road Construction
-5500000,Delta Roadways Pvt Ltd,2024-03-18,Public Works,Highway construction project,10,Road Construction
-6400000,Gamma Builders Pvt Ltd,2024-06-25,Rural Development,Road and culvert construction,7,Road Construction
-5800000,Modern Constructions Ltd,2024-08-12,Public Works,State road improvement project,9,Road Construction
-4900000,ABC Construction Pvt Ltd,2024-09-20,Rural Development,Village road construction project,3,Road Construction
-6200000,XYZ Infrastructure Private Limited,2024-10-15,Public Works,Urban road development - Final phase,8,Road Construction
-3500000,PQR Builders Pvt Ltd,2018-04-10,Public Works,Road construction - Minor project,4,Road Construction
-4100000,ABC Construction Pvt Ltd,2018-07-25,Rural Development,Rural road repair and construction,5,Road Construction
-2900000,STU Infrastructure Ltd,2019-03-30,Public Works,Urban road improvement,6,Road Construction
-3600000,ABC Construction Pvt Ltd,2019-07-15,Rural Development,Road construction - Village connectivity,3,Road Construction
-4700000,VWX Constructions Pvt Ltd,2020-02-20,Public Works,Highway maintenance project,8,Road Construction
-3900000,ABC Construction Pvt Ltd,2020-08-05,Rural Development,Road and bridge construction,4,Road Construction
-5400000,YZA Builders Ltd,2021-03-25,Public Works,State road construction,10,Road Construction
-4400000,ABC Construction Pvt Ltd,2021-11-12,Rural Development,Road construction - Block level,2,Road Construction
-5100000,BCD Infrastructure Pvt Ltd,2022-05-18,Public Works,Urban road development,9,Road Construction
-3700000,ABC Construction Pvt Ltd,2022-10-22,Rural Development,Road construction - Village project,5,Road Construction
-5900000,CDE Constructions Ltd,2023-04-10,Public Works,Highway widening project,11,Road Construction
-4300000,ABC Construction Pvt Ltd,2023-09-28,Rural Development,Rural road construction,3,Road Construction
-5600000,DEF Builders Pvt Ltd,2024-02-15,Public Works,Road improvement project,7,Road Construction
-4800000,ABC Construction Pvt Ltd,2024-07-30,Rural Development,Road construction - Final phase,4,Road Construction
-2600000,Howrah Infra Projects Ltd,2018-01-18,Rural Development,Village road construction - Howrah block A,5,Road Construction,Howrah
-3100000,ABC Construction Pvt Ltd,2018-04-22,Rural Development,Rural road improvement - Howrah zone,4,Road Construction,Howrah
-4700000,Delta Roadways Pvt Ltd,2018-08-10,Public Works,Urban road construction - Howrah city,7,Road Construction,Howrah
-3900000,Gamma Builders Pvt Ltd,2018-11-05,Public Works,Road repair and resurfacing - Howrah,6,Road Construction,Howrah
-
-2800000,XYZ Infrastructure Private Limited,2019-02-12,Rural Development,Gram panchayat road construction - Howrah,5,Road Construction,Howrah
-5200000,Modern Constructions Ltd,2019-05-28,Public Works,Urban road widening - Howrah municipal area,8,Road Construction,Howrah
-3600000,ABC Construction Pvt Ltd,2019-09-14,Rural Development,Village connectivity road - Howrah block B,3,Road Construction,Howrah
-6100000,Delta Roadways Pvt Ltd,2019-12-20,Public Works,State road construction - Howrah stretch,9,Road Construction,Howrah
-
-3400000,ABC Construction Pvt Ltd,2020-01-16,Rural Development,Road construction with culvert - Howrah,4,Road Construction,Howrah
-4800000,Gamma Builders Pvt Ltd,2020-03-25,Public Works,Highway maintenance - Howrah section,7,Road Construction,Howrah
-4200000,Modern Constructions Ltd,2020-07-19,Rural Development,Rural road connectivity phase 1 - Howrah,6,Road Construction,Howrah
-9500000,Delta Roadways Pvt Ltd,2020-10-08,Public Works,Major road construction - Howrah urban corridor,10,Road Construction,Howrah
-
-3700000,XYZ Infrastructure Private Limited,2021-02-06,Rural Development,Block level road construction - Howrah,5,Road Construction,Howrah
-5500000,Gamma Builders Pvt Ltd,2021-04-18,Public Works,Urban road strengthening - Howrah,8,Road Construction,Howrah
-4100000,ABC Construction Pvt Ltd,2021-08-27,Rural Development,Village road construction - Howrah south,3,Road Construction,Howrah
-7200000,Delta Roadways Pvt Ltd,2021-11-30,Public Works,Highway repair and construction - Howrah,9,Road Construction,Howrah
-
-4600000,Modern Constructions Ltd,2022-01-24,Rural Development,Road improvement project - Howrah rural belt,6,Road Construction,Howrah
-6300000,XYZ Infrastructure Private Limited,2022-05-11,Public Works,State highway construction - Howrah district,10,Road Construction,Howrah
-3800000,ABC Construction Pvt Ltd,2022-08-19,Rural Development,Village road construction phase 2 - Howrah,4,Road Construction,Howrah
-8200000,Delta Roadways Pvt Ltd,2022-12-06,Public Works,Major urban road project - Howrah,11,Road Construction,Howrah
-
-5100000,Gamma Builders Pvt Ltd,2023-02-14,Public Works,Highway resurfacing project - Howrah,7,Road Construction,Howrah
-4300000,ABC Construction Pvt Ltd,2023-05-21,Rural Development,Rural road construction - Howrah north,3,Road Construction,Howrah
-6900000,Modern Constructions Ltd,2023-09-02,Public Works,Urban road development - Howrah phase 2,12,Road Construction,Howrah
-7600000,XYZ Infrastructure Private Limited,2023-11-18,Rural Development,Road and bridge construction - Howrah,6,Road Construction,Howrah
-
-5800000,Delta Roadways Pvt Ltd,2024-01-27,Public Works,Highway construction - Howrah bypass,9,Road Construction,Howrah
-4400000,ABC Construction Pvt Ltd,2024-04-09,Rural Development,Village road improvement - Howrah block C,4,Road Construction,Howrah
-6700000,Gamma Builders Pvt Ltd,2024-07-12,Public Works,State road widening - Howrah district,8,Road Construction,Howrah
-5200000,Modern Constructions Ltd,2024-10-03,Rural Development,Road construction - Howrah final phase,5,Road Construction,Howrah
-3900000,ABC Construction Pvt Ltd,2018-12-18,Rural Development,Road resurfacing work - Howrah rural zone,4,Road Construction,Howrah
-6100000,Delta Roadways Pvt Ltd,2019-06-09,Public Works,Urban road strengthening - Howrah city,9,Road Construction,Howrah
-4500000,Modern Constructions Ltd,2019-10-26,Rural Development,Village road connectivity improvement - Howrah,5,Road Construction,Howrah
-5200000,Gamma Builders Pvt Ltd,2020-05-14,Public Works,Highway maintenance and repair - Howrah stretch,7,Road Construction,Howrah
-4800000,ABC Construction Pvt Ltd,2020-09-29,Rural Development,Road construction with drainage - Howrah block D,3,Road Construction,Howrah
-7400000,XYZ Infrastructure Private Limited,2021-07-08,Public Works,State highway widening project - Howrah,10,Road Construction,Howrah
-4300000,ABC Construction Pvt Ltd,2022-04-16,Rural Development,Rural road improvement project - Howrah east,4,Road Construction,Howrah
-6800000,Delta Roadways Pvt Ltd,2022-11-21,Public Works,Major road construction - Howrah municipal area,11,Road Construction,Howrah
-5600000,Gamma Builders Pvt Ltd,2023-06-30,Public Works,Highway repair project - Howrah district,8,Road Construction,Howrah
-4900000,Modern Constructions Ltd,2024-09-11,Rural Development,Road construction and finishing work - Howrah,5,Road Construction,Howrah
+Tender_ID,Award_Year,District,Department,Project_Name,Vendor_Name,Project_Length_km,Tender_Value_Adjusted_Rs,Bidders_Count,Road_Type
+TND001,2018,Howrah,Public Works,Village Road Construction Phase 1,ABC Construction Pvt Ltd,12.5,25000000,5,Rural
+TND002,2018,Howrah,Public Works,Highway Widening NH-34,XYZ Infrastructure Private Limited,25.0,52000000,8,Highway
+TND003,2018,Kolkata,Rural Development,Village Connectivity Project,West Bengal Builders Ltd,8.3,18000000,3,Rural
+TND004,2018,Howrah,Public Works,State Highway Construction,Delta Roadways Pvt Ltd,45.0,75000000,12,Highway
+TND005,2019,Howrah,Rural Development,Block Level Road Project,ABC Construction Pvt Ltd,15.0,32000000,4,Rural
+TND006,2019,Kolkata,Public Works,Urban Road Improvement,Modern Constructions Ltd,10.0,45000000,6,Urban
+TND007,2019,Howrah,Rural Development,Panchayat Road Construction,XYZ Infrastructure Private Limited,12.0,28000000,5,Rural
+TND008,2019,Howrah,Public Works,Bridge and Road Project,Gamma Builders Pvt Ltd,30.0,62000000,9,Highway
+TND009,2020,Howrah,Rural Development,Road and Culvert Repair,ABC Construction Pvt Ltd,18.0,35000000,4,Rural
+TND010,2020,Kolkata,Public Works,Highway Maintenance Project,Delta Roadways Pvt Ltd,28.0,58000000,7,Highway
+TND011,2020,Howrah,Rural Development,Village Connectivity Phase 2,Modern Constructions Ltd,20.0,42000000,6,Rural
+TND012,2020,Howrah,Rural Development,Major Village Connectivity,ABC Construction Pvt Ltd,50.0,250000000,2,Rural
+TND013,2021,Kolkata,Public Works,Urban Road Development,XYZ Infrastructure Private Limited,15.0,38000000,8,Urban
+TND014,2021,Howrah,Rural Development,District Level Road Project,Gamma Builders Pvt Ltd,22.0,49000000,5,Rural
+TND015,2021,Howrah,Public Works,Highway Construction Project,Delta Roadways Pvt Ltd,35.0,55000000,10,Highway
+TND016,2021,Howrah,Rural Development,Village Road Construction,ABC Construction Pvt Ltd,16.0,42000000,3,Rural
+TND017,2022,Kolkata,Public Works,State Highway Improvement,Modern Constructions Ltd,40.0,68000000,9,Highway
+TND018,2022,Howrah,Rural Development,Road and Bridge Construction,XYZ Infrastructure Private Limited,25.0,51000000,7,Rural
+TND019,2022,Kolkata,Public Works,Urban Road Construction,ABC Construction Pvt Ltd,12.0,45000000,4,Urban
+TND020,2022,Howrah,Rural Development,Block Headquarters Road,Delta Roadways Pvt Ltd,55.0,85000000,11,Rural
+TND021,2023,Kolkata,Public Works,Highway Widening Project,Gamma Builders Pvt Ltd,30.0,48000000,8,Highway
+TND022,2023,Howrah,Rural Development,Village Road Project,ABC Construction Pvt Ltd,20.0,52000000,2,Rural
+TND023,2023,Kolkata,Public Works,Urban Development Phase 3,Modern Constructions Ltd,18.0,60000000,12,Urban
+TND024,2023,Howrah,Rural Development,Rural Road Construction,XYZ Infrastructure Private Limited,32.0,72000000,6,Rural
+TND025,2024,Howrah,Rural Development,Major Connectivity Project,ABC Construction Pvt Ltd,75.0,380000000,1,Rural
+TND026,2024,Kolkata,Public Works,Highway Construction,Delta Roadways Pvt Ltd,28.0,55000000,10,Highway
+TND027,2024,Howrah,Rural Development,Road and Culvert Project,Gamma Builders Pvt Ltd,24.0,64000000,7,Rural
+TND028,2024,Kolkata,Public Works,State Road Improvement,Modern Constructions Ltd,22.0,58000000,9,Highway
+TND029,2024,Howrah,Rural Development,Village Road Construction,ABC Construction Pvt Ltd,14.0,49000000,3,Rural
+TND030,2024,Kolkata,Public Works,Urban Development Final,XYZ Infrastructure Private Limited,16.0,62000000,8,Urban
+TND031,2018,Darjeeling,Public Works,Hill Road Construction,Mountain Builders Ltd,15.5,42000000,6,Rural
+TND032,2018,Darjeeling,Rural Development,Tea Garden Road Project,ABC Construction Pvt Ltd,8.2,28000000,4,Rural
+TND033,2019,Darjeeling,Public Works,Highway Repair NH-55,Delta Roadways Pvt Ltd,22.0,65000000,9,Highway
+TND034,2019,Jalpaiguri,Rural Development,Village Road Connectivity,XYZ Infrastructure Private Limited,18.5,35000000,5,Rural
+TND035,2020,Jalpaiguri,Public Works,District Road Improvement,Modern Constructions Ltd,25.0,58000000,7,Highway
+TND036,2020,Jalpaiguri,Rural Development,Block Road Construction,Gamma Builders Pvt Ltd,12.8,31000000,4,Rural
+TND037,2021,Darjeeling,Public Works,State Highway Widening,ABC Construction Pvt Ltd,30.0,95000000,11,Highway
+TND038,2021,Jalpaiguri,Rural Development,Panchayat Road Project,Delta Roadways Pvt Ltd,14.2,38000000,6,Rural
+TND039,2022,Darjeeling,Public Works,Urban Road Development,XYZ Infrastructure Private Limited,10.5,45000000,8,Urban
+TND040,2022,Jalpaiguri,Public Works,Highway Construction,Modern Constructions Ltd,35.0,78000000,10,Highway
+TND041,2023,Darjeeling,Rural Development,Hill Area Connectivity,ABC Construction Pvt Ltd,20.0,55000000,3,Rural
+TND042,2023,Jalpaiguri,Public Works,State Road Repair,Gamma Builders Pvt Ltd,28.5,72000000,9,Highway
+TND043,2024,Darjeeling,Public Works,Tourism Route Development,Delta Roadways Pvt Ltd,16.8,62000000,7,Highway
+TND044,2024,Jalpaiguri,Rural Development,Village Connectivity Phase 3,XYZ Infrastructure Private Limited,22.0,48000000,5,Rural
+TND045,2018,Murshidabad,Public Works,District Road Construction,Modern Constructions Ltd,28.0,68000000,8,Highway
+TND046,2018,Murshidabad,Rural Development,Village Road Project,ABC Construction Pvt Ltd,15.5,32000000,4,Rural
+TND047,2019,Murshidabad,Public Works,Highway Maintenance,Delta Roadways Pvt Ltd,40.0,85000000,10,Highway
+TND048,2019,Nadia,Rural Development,Block Road Connectivity,Gamma Builders Pvt Ltd,18.0,42000000,6,Rural
+TND049,2020,Nadia,Public Works,State Highway Construction,XYZ Infrastructure Private Limited,32.0,75000000,9,Highway
+TND050,2020,Murshidabad,Rural Development,Gram Panchayat Roads,Modern Constructions Ltd,12.5,28000000,5,Rural
+TND051,2021,Nadia,Public Works,Urban Road Development,ABC Construction Pvt Ltd,14.0,52000000,7,Urban
+TND052,2021,Murshidabad,Rural Development,Village Road Improvement,Delta Roadways Pvt Ltd,20.0,45000000,4,Rural
+TND053,2022,Nadia,Public Works,Highway Widening Project,Gamma Builders Pvt Ltd,38.0,88000000,11,Highway
+TND054,2022,Murshidabad,Rural Development,District Road Repair,XYZ Infrastructure Private Limited,16.5,38000000,6,Rural
+TND055,2023,Nadia,Public Works,State Road Construction,Modern Constructions Ltd,26.0,68000000,8,Highway
+TND056,2023,Murshidabad,Rural Development,Village Connectivity,ABC Construction Pvt Ltd,19.0,42000000,3,Rural
+TND057,2024,Nadia,Public Works,Urban Infrastructure Project,Delta Roadways Pvt Ltd,12.0,55000000,9,Urban
+TND058,2024,Murshidabad,Rural Development,Block Level Roads,Gamma Builders Pvt Ltd,24.0,58000000,7,Rural
+TND059,2018,Purulia,Public Works,Tribal Area Road Project,XYZ Infrastructure Private Limited,22.0,48000000,5,Rural
+TND060,2018,Purulia,Rural Development,Village Connectivity,Modern Constructions Ltd,14.5,32000000,4,Rural
+TND061,2019,Bankura,Public Works,District Highway Construction,ABC Construction Pvt Ltd,30.0,72000000,9,Highway
+TND062,2019,Bankura,Rural Development,Block Road Project,Delta Roadways Pvt Ltd,16.0,38000000,6,Rural
+TND063,2020,Purulia,Public Works,State Road Improvement,Gamma Builders Pvt Ltd,28.0,65000000,8,Highway
+TND064,2020,Bankura,Rural Development,Village Road Construction,XYZ Infrastructure Private Limited,18.5,42000000,5,Rural
+TND065,2021,Purulia,Public Works,Highway Maintenance Project,Modern Constructions Ltd,35.0,78000000,10,Highway
+TND066,2021,Bankura,Rural Development,Panchayat Road Development,ABC Construction Pvt Ltd,12.8,28000000,3,Rural
+TND067,2022,Purulia,Public Works,Urban Road Construction,Delta Roadways Pvt Ltd,10.5,45000000,7,Urban
+TND068,2022,Bankura,Public Works,State Highway Widening,Gamma Builders Pvt Ltd,40.0,92000000,11,Highway
+TND069,2023,Purulia,Rural Development,Village Connectivity Phase 2,XYZ Infrastructure Private Limited,20.0,48000000,6,Rural
+TND070,2023,Bankura,Public Works,District Road Repair,Modern Constructions Ltd,26.0,62000000,8,Highway
+TND071,2024,Purulia,Public Works,Highway Construction,ABC Construction Pvt Ltd,32.0,75000000,9,Highway
+TND072,2024,Bankura,Rural Development,Block Road Improvement,Delta Roadways Pvt Ltd,22.0,52000000,5,Rural

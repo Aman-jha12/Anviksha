@@ -180,32 +180,32 @@
             <section class="section section--filters">
                 <h2 class="section__title">🗺️ Explore by Filters</h2>
                 
-                <form hx-post="/filter" hx-target="#results-container" hx-indicator="#loading-spinner" class="filter-form">
+                <form id="filter-form" hx-post="/filter" hx-target="#results-container" hx-swap="innerHTML" hx-indicator="#loading-spinner" class="filter-form">
                     <div class="filter-card">
                         <div class="filter-group">
                             <label for="district" class="filter-label">District</label>
-                            <select id="district" name="district" class="filter-input" hx-trigger="change">
+                            <select id="district" name="district" class="filter-input">
                                 {% for dist in districts %}
-                                <option value="{{ dist }}">{{ dist }}</option>
+                                <option value="{{ dist }}" {% if selected_filters and selected_filters.district == dist %}selected{% endif %}>{{ dist }}</option>
                                 {% endfor %}
                             </select>
                         </div>
 
                         <div class="filter-group">
                             <label for="department" class="filter-label">Department</label>
-                            <select id="department" name="department" class="filter-input" hx-trigger="change">
+                            <select id="department" name="department" class="filter-input">
                                 {% for dept in departments %}
-                                <option value="{{ dept }}">{{ dept }}</option>
+                                <option value="{{ dept }}" {% if selected_filters and selected_filters.department == dept %}selected{% endif %}>{{ dept }}</option>
                                 {% endfor %}
                             </select>
                         </div>
 
                         <div class="filter-group">
                             <label for="year" class="filter-label">Year</label>
-                            <select id="year" name="year" class="filter-input" hx-trigger="change">
-                                <option value="all">All Years</option>
+                            <select id="year" name="year" class="filter-input">
+                                <option value="all" {% if selected_filters and selected_filters.year == 'all' %}selected{% endif %}>All Years</option>
                                 {% for yr in years %}
-                                <option value="{{ yr }}">{{ yr }}</option>
+                                <option value="{{ yr }}" {% if selected_filters and selected_filters.year|string == yr|string %}selected{% endif %}>{{ yr }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -410,5 +410,19 @@
     </div>
 
     <script src="{{ url_for('static', path='script.js') }}"></script>
+    <script>
+        // Trigger form submission when any filter changes
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('filter-form');
+            const selects = form.querySelectorAll('select');
+            
+            selects.forEach(select => {
+                select.addEventListener('change', function() {
+                    console.log('Filter changed:', select.name, '=', select.value);
+                    htmx.trigger(form, 'submit');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

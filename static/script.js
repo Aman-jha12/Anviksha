@@ -39,13 +39,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // HTMX Event Listeners
 document.addEventListener('htmx:beforeRequest', function(evt) {
-    console.log('HTMX request starting...');
+    console.log('🔄 HTMX request starting...', evt.detail);
+    const formData = new FormData(evt.detail.elt);
+    console.log('📋 Form data:', {
+        district: formData.get('district'),
+        department: formData.get('department'),
+        year: formData.get('year')
+    });
 });
 
 document.addEventListener('htmx:afterRequest', function(evt) {
-    console.log('HTMX request completed');
+    console.log('✅ HTMX request completed', evt.detail.xhr.status);
     if (evt.detail.xhr.status === 200) {
         console.log('✓ Filters applied successfully');
+        // Count table rows
+        const tableRows = document.querySelectorAll('#table-body tr.data-row');
+        console.log(`📊 Table updated: ${tableRows.length} rows visible`);
+        
         // Smooth scroll to results
         setTimeout(() => {
             const resultsContainer = document.getElementById('results-container');
