@@ -321,3 +321,85 @@
     </div>
     {% endif %}
 </section>
+
+<!-- EXPORT SECTION - PREMIUM REDESIGN (MOVED HERE FROM METRICS.HTML) -->
+<section class="export-section">
+    <div class="export-container">
+        <div class="export-header">
+            <div class="export-icon-wrapper">
+                <span class="export-icon">📊</span>
+            </div>
+            <div class="export-header-content">
+                <h2 class="export-title">Export Analysis Data</h2>
+                <p class="export-subtitle">Download complete datasets for independent verification, research, and advanced analysis</p>
+            </div>
+        </div>
+
+        <div class="export-cards-grid">
+            <!-- Export Card 1: Summary CSV -->
+            <div class="export-card export-card--primary">
+                <div class="export-card-header">
+                    <span class="export-card-icon">📈</span>
+                    <h3 class="export-card-title">Summary Report</h3>
+                </div>
+                <p class="export-card-description">
+                    Aggregated spending by district, department, and year with statistical summaries. 
+                    Perfect for trend analysis and overview reports.
+                </p>
+                <ul class="export-features">
+                    <li>✓ District-wise aggregation</li>
+                    <li>✓ Year-over-year trends</li>
+                    <li>✓ Statistical summaries</li>
+                    <li>✓ Ready for Excel/Sheets</li>
+                </ul>
+                <a href="/export/summary" class="export-btn export-btn--primary" download>
+                    <span class="btn-icon">📥</span>
+                    <span class="btn-text">Download Summary CSV</span>
+                    <span class="btn-badge">Recommended</span>
+                </a>
+                <p class="export-meta">Aggregated • {{ stats.get('districts_count', 0) }} districts • {{ stats.get('total_projects', 0) }} projects</p>
+            </div>
+
+            <!-- Export Card 2: Detailed CSV -->
+            <div class="export-card export-card--secondary">
+                <div class="export-card-header">
+                    <span class="export-card-icon">🗂️</span>
+                    <h3 class="export-card-title">Complete Dataset</h3>
+                </div>
+                <p class="export-card-description">
+                    Full project-level data with all columns including vendor names, bid counts, 
+                    project lengths, and inflation-adjusted values.
+                </p>
+                <ul class="export-features">
+                    <li>✓ Project-level details</li>
+                    <li>✓ Vendor information</li>
+                    <li>✓ Bidding statistics</li>
+                    <li>✓ Complete metadata</li>
+                </ul>
+                <a href="/export/detailed" class="export-btn export-btn--secondary" download>
+                    <span class="btn-icon">📥</span>
+                    <span class="btn-text">Download Detailed CSV</span>
+                </a>
+                <p class="export-meta">Raw data • All {{ stats.get('total_projects', 0) }} projects • Inflation-adjusted</p>
+            </div>
+        </div>
+
+        <!-- Export Info Box -->
+        <div class="export-info-box">
+            <div class="info-box-icon">ℹ️</div>
+            <div class="info-box-content">
+                <h4 class="info-box-title">What's Included in Exports</h4>
+                <p class="info-box-text">
+                    All exported files contain inflation-adjusted values (base year: 2024), 
+                    methodology notes, and data quality indicators. Files are compatible with 
+                    Excel, Google Sheets, R, Python pandas, and statistical software.
+                </p>
+                <div class="info-box-badges">
+                    <span class="info-badge">UTF-8 Encoded</span>
+                    <span class="info-badge">No Login Required</span>
+                    <span class="info-badge">Public Domain</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -442,7 +442,114 @@ async def filter_data(request: Request, district: str = Form(...), department: s
     
     return templates.TemplateResponse("partials/results.html", context)
 
-# ...existing code...
+@app.get("/export/summary")
+async def export_summary():
+    """Export aggregated summary data as CSV"""
+    try:
+        df = load_data()
+        if df.empty:
+            # Return empty CSV with headers
+            headers = "District,Department,Award_Year,Total_Projects,Total_Spending_Cr,Avg_Project_Value_Cr,Total_Length_Km\n"
+            return StreamingResponse(
+                iter([headers]),
+                media_type="text/csv",
+                headers={"Content-Disposition": "attachment; filename=anviksha_summary_export.csv"}
+            )
+        
+        # Create aggregated summary
+        summary = df.groupby(['District', 'Department', 'Award_Year']).agg({
+            'Tender_ID': 'count',
+            'Tender_Value_Adjusted_Rs': ['sum', 'mean'],
+            'Project_Length_km': 'sum'
+        }).reset_index()
+        
+        # Flatten column names
+        summary.columns = ['District', 'Department', 'Award_Year', 'Total_Projects', 
+                          'Total_Spending_Rs', 'Avg_Project_Value_Rs', 'Total_Length_Km']
+        
+        # Convert to crores for readability
+        summary['Total_Spending_Cr'] = (summary['Total_Spending_Rs'] / 10000000).round(2)
+        summary['Avg_Project_Value_Cr'] = (summary['Avg_Project_Value_Rs'] / 10000000).round(2)
+        
+        # Drop rupee columns, keep crore columns
+        summary = summary[['District', 'Department', 'Award_Year', 'Total_Projects', 
+                          'Total_Spending_Cr', 'Avg_Project_Value_Cr', 'Total_Length_Km']]
+        
+        # Sort by year and district
+        summary = summary.sort_values(['Award_Year', 'District', 'Department'])
+        
+        # Convert to CSV
+        stream = io.StringIO()
+        summary.to_csv(stream, index=False)
+        stream.seek(0)
+        
+        return StreamingResponse(
+            iter([stream.getvalue()]),
+            media_type="text/csv",
+            headers={"Content-Disposition": "attachment; filename=anviksha_summary_export.csv"}
+        )
+    
+    except Exception as e:
+        print(f"Error in export_summary: {e}")
+        import traceback
+        traceback.print_exc()
+        return StreamingResponse(
+            iter([f"Error generating export: {str(e)}\n"]),
+            media_type="text/plain"
+        )
+
+@app.get("/export/detailed")
+async def export_detailed():
+    """Export complete detailed data as CSV"""
+    try:
+        df = load_data()
+        if df.empty:
+            # Return empty CSV with headers
+            headers = "Tender_ID,Award_Year,District,Department,Project_Name,Vendor_Name,Project_Length_km,Tender_Value_Cr,Bidders_Count,Road_Type\n"
+            return StreamingResponse(
+                iter([headers]),
+                media_type="text/csv",
+                headers={"Content-Disposition": "attachment; filename=anviksha_detailed_export.csv"}
+            )
+        
+        # Create export dataframe with all columns
+        export_df = df.copy()
+        
+        # Add computed columns
+        export_df['Tender_Value_Cr'] = (export_df['Tender_Value_Adjusted_Rs'] / 10000000).round(2)
+        export_df['Cost_Per_Km_Lakh'] = ((export_df['Tender_Value_Adjusted_Rs'] / export_df['Project_Length_km']) / 100000).round(2)
+        
+        # Select and order columns for export
+        export_columns = [
+            'Tender_ID', 'Award_Year', 'District', 'Department', 
+            'Project_Name', 'Vendor_Name', 'Project_Length_km', 
+            'Tender_Value_Cr', 'Cost_Per_Km_Lakh', 'Bidders_Count', 'Road_Type'
+        ]
+        
+        export_df = export_df[export_columns]
+        
+        # Sort by year and district
+        export_df = export_df.sort_values(['Award_Year', 'District'])
+        
+        # Convert to CSV
+        stream = io.StringIO()
+        export_df.to_csv(stream, index=False)
+        stream.seek(0)
+        
+        return StreamingResponse(
+            iter([stream.getvalue()]),
+            media_type="text/csv",
+            headers={"Content-Disposition": "attachment; filename=anviksha_detailed_export.csv"}
+        )
+    
+    except Exception as e:
+        print(f"Error in export_detailed: {e}")
+        import traceback
+        traceback.print_exc()
+        return StreamingResponse(
+            iter([f"Error generating export: {str(e)}\n"]),
+            media_type="text/plain"
+        )
 
 if __name__ == "__main__":
     import uvicorn

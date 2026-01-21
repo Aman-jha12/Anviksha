@@ -1603,3 +1603,239 @@ body {
     margin-bottom: 20px;
     font-style: italic;
 }
+
+/* ============================================
+   PREMIUM EXPORT SECTION STYLES
+   ============================================ */
+
+.export-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 4rem 2rem;
+    margin: 4rem 0;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.export-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.export-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.export-icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.export-icon {
+    font-size: 3rem;
+    display: block;
+}
+
+.export-header-content {
+    flex: 1;
+}
+
+.export-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.export-subtitle {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.export-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.export-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.export-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.export-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.export-card-icon {
+    font-size: 2.5rem;
+}
+
+.export-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+}
+
+.export-card-description {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.export-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.export-features li {
+    color: #2d3748;
+    padding: 0.5rem 0;
+    font-weight: 500;
+}
+
+.export-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+    position: relative;
+}
+
+.export-btn--primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.export-btn--primary:hover {
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+}
+
+.export-btn--secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+}
+
+.export-btn--secondary:hover {
+    box-shadow: 0 8px 25px rgba(245, 87, 108, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-icon {
+    font-size: 1.25rem;
+}
+
+.btn-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #f59e0b;
+    color: #ffffff;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.export-meta {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #718096;
+    text-align: center;
+}
+
+.export-info-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.info-box-icon {
+    font-size: 2rem;
+}
+
+.info-box-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 0.5rem 0;
+}
+
+.info-box-text {
+    color: #4a5568;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+}
+
+.info-box-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.info-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    padding: 0.375rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .export-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .export-title {
+        font-size: 2rem;
+    }
+    
+    .export-cards-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .export-info-box {
+        flex-direction: column;
+        text-align: center;
+    }
+}
