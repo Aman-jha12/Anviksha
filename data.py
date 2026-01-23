@@ -67,37 +67,41 @@ def load_preloaded_data() -> pd.DataFrame:
         df['Tender_Value_Rs'] = df['Tender_Value_Adjusted_Rs']
     
     # Replace zero and null values to prevent division errors
-    # MUST use EXACT column names from your CSV: Project_length_km (capital L), Bidders_count (capital C)
+    # CRITICAL: Match EXACT column names from your CSV output
     numeric_columns = ['Tender_Value_Rs', 'Project_length_km', 'Bidders_count', 'Tender_Value_Adjusted_Rs']
     for col in numeric_columns:
         if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce')  # Convert to numeric
-            df[col] = df[col].fillna(0.01)  # Replace NaN with small value
-            df[col] = df[col].replace(0, 0.01)  # Replace 0 with small value
-            print(f"✓ Processed numeric column: {col}")
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+            df[col] = df[col].fillna(0.01)
+            df[col] = df[col].replace(0, 0.01)
+            print(f"✓ Processed numeric column: {col} - Min: {df[col].min()}, Max: {df[col].max()}")
         else:
-            print(f"⚠️ Warning: Column '{col}' not found in dataframe")
+            print(f"⚠️ ERROR: Column '{col}' NOT FOUND!")
+            print(f"   Available columns: {df.columns.tolist()}")
     
-    # Standardize vendor names if column exists
+    # Standardize vendor names - handle both cases
     if 'Vendor_name' in df.columns:
         df['Vendor_name'] = df['Vendor_name'].str.strip()
-        print(f"✓ Processed vendor names")
+        print(f"✓ Processed Vendor_name")
+    elif 'Vendor_name' in df.columns:
+        df['Vendor_name'] = df['Vendor_name'].str.strip()
+        print(f"✓ Renamed Vendor_name to Vendor_name")
     
     print(f"Final columns available: {df.columns.tolist()}")
     print(f"Data shape: {df.shape}")
-    print(f"Sample Project_length_km values: {df['Project_length_km'].head().tolist() if 'Project_length_km' in df.columns else 'NOT FOUND'}")
     
     return df
 
 
-def get_filtered_data(df: pd.DataFrame, district: str = None, department: str = None) -> pd.DataFrame:
+def get_filtered_data(df: pd.DataFrame, district: str = None, department: str = None, year: str = None) -> pd.DataFrame:
     """
-    Filter data by district and/or department.
+    Filter data by district, department, and/or year.
     
     Args:
         df: Full dataset
         district: District name to filter (None for all)
         department: Department name to filter (None for all)
+        year: Year to filter (None for all)
         
     Returns:
         Filtered DataFrame
@@ -109,6 +113,13 @@ def get_filtered_data(df: pd.DataFrame, district: str = None, department: str = 
     
     if department and department != "All":
         filtered = filtered[filtered['Department'] == department]
+    
+    if year and year != "all":
+        try:
+            year_int = int(year)
+            filtered = filtered[filtered['Award_Year'] == year_int]
+        except ValueError:
+            pass  # If year is not a valid integer, skip filtering
     
     return filtered
 

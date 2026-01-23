@@ -34,10 +34,11 @@ def calculate_statistics(df: pd.DataFrame) -> Dict:
     # Calculate average cost per km - ENSURE we use capital L
     if 'Project_Length_km' in df.columns:
         total_length = df['Project_Length_km'].sum()
-        avg_cost_per_km = (total_spending / total_length) if total_length > 0 else 0  # in rupees per km
-        print(f"DEBUG: total_spending={total_spending}, total_length={total_length}, avg_cost_per_km={avg_cost_per_km}")
+        avg_cost_per_km = (total_spending / total_length) if total_length > 0 else 0
+        print(f"📊 STATS DEBUG: total_spending={total_spending:,.0f}, total_length={total_length:.2f}, avg_cost_per_km={avg_cost_per_km:,.0f}")
     else:
-        print(f"ERROR: Project_Length_km not found! Available columns: {df.columns.tolist()}")
+        print(f"❌ ERROR: Project_Length_km NOT FOUND in dataframe!")
+        print(f"   Available columns: {df.columns.tolist()}")
         avg_cost_per_km = 0
     
     # Time range

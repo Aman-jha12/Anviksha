@@ -132,9 +132,9 @@
                         <div class="filter-group">
                             <label for="year" class="filter-label">Year</label>
                             <select id="year" name="year" class="filter-input">
-                                <option value="all" {% if selected_filters and selected_filters.year == 'all' %}selected{% endif %}>All Years</option>
+                                <option value="all">All Years</option>
                                 {% for yr in years %}
-                                <option value="{{ yr }}" {% if selected_filters and selected_filters.year|string == yr|string %}selected{% endif %}>{{ yr }}</option>
+                                <option value="{{ yr }}" {% if selected_filters and selected_filters.get('year')|string == yr|string %}selected{% endif %}>{{ yr }}</option>
                                 {% endfor %}
                             </select>
                         </div>
