@@ -32,6 +32,9 @@ const chartLayout = {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✓ Anviksha portal initialized');
     
+    // COUNT TABLE ROWS ON LOAD
+    countTableRows();
+    
     // Initialize table interactions
     initializeTableInteractions();
     setupTableSearch();
@@ -52,9 +55,11 @@ document.addEventListener('htmx:afterRequest', function(evt) {
     console.log('✅ HTMX request completed', evt.detail.xhr.status);
     if (evt.detail.xhr.status === 200) {
         console.log('✓ Filters applied successfully');
-        // Count table rows
-        const tableRows = document.querySelectorAll('#table-body tr.data-row');
-        console.log(`📊 Table updated: ${tableRows.length} rows visible`);
+        
+        // COUNT ROWS AFTER UPDATE
+        setTimeout(() => {
+            countTableRows();
+        }, 100);
         
         // Smooth scroll to results
         setTimeout(() => {
@@ -208,3 +213,30 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// NEW FUNCTION: Count and log table rows
+function countTableRows() {
+    const tableBody = document.getElementById('table-body');
+    if (!tableBody) {
+        console.warn('⚠️ Table body not found');
+        return;
+    }
+    
+    const allRows = tableBody.querySelectorAll('tr');
+    const dataRows = tableBody.querySelectorAll('tr.data-row');
+    
+    console.log('\n' + '='.repeat(50));
+    console.log('📊 TABLE ROW COUNT');
+    console.log('='.repeat(50));
+    console.log(`Total <tr> elements: ${allRows.length}`);
+    console.log(`Data rows (.data-row): ${dataRows.length}`);
+    console.log(`First row text: ${dataRows[0]?.textContent.substring(0, 50)}...`);
+    console.log(`Last row text: ${dataRows[dataRows.length - 1]?.textContent.substring(0, 50)}...`);
+    console.log('='.repeat(50) + '\n');
+    
+    // Also check the table meta count
+    const tableMeta = document.querySelector('.table-meta strong');
+    if (tableMeta) {
+        console.log(`📋 Meta count shows: ${tableMeta.textContent} projects`);
+    }
+}

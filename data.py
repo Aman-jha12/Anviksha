@@ -6,9 +6,10 @@ Loads the preloaded West Bengal road construction dataset.
 
 import pandas as pd
 from typing import Dict, List
+import os
 
 # Preloaded dataset - representative subset of publicly available data
-PRELOADED_DATA = """Tender_ID,State,District,Department,Road_Type,Project_Length_km,Vendor_Name,Tender_Value_Cr,Award_Year,Bidders_Count
+PRELOADED_DATA = """Tender_ID,State,District,Department,Road_Type,Project_length_km,Vendor_name,Tender_value_cr,Award_year,Bidders_count
 WB-RD-001,West Bengal,Howrah,PWD,Rural,5.2,Shivam Infra Projects Pvt Ltd,3.9,2019,6
 WB-RD-002,West Bengal,Howrah,PWD,Rural,5.0,RK Constructions India Pvt Ltd,4.2,2020,5
 WB-RD-003,West Bengal,Howrah,PWD,Rural,5.1,Shivam Infra Projects Pvt Ltd,4.6,2021,5
@@ -33,19 +34,58 @@ WB-RD-020,West Bengal,Paschim Medinipur,PWD,Rural,5.6,Universal Infra Solutions 
 
 def load_preloaded_data() -> pd.DataFrame:
     """
-    Load the preloaded dataset.
+    Load the preloaded dataset from CSV file.
     
     Returns:
         DataFrame with tender data
     """
-    from io import StringIO
-    df = pd.read_csv(StringIO(PRELOADED_DATA))
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(script_dir, 'static', 'west_bengal_road_tenders_sample.csv')
     
-    # Convert Tender_Value_Cr to absolute value in rupees
-    df['Tender_Value_Rs'] = df['Tender_Value_Cr'] * 1_00_00_000  # Convert crores to rupees
+    # Load from CSV file
+    df = pd.read_csv(csv_path)
     
-    # Standardize vendor names
-    df['Vendor_Name'] = df['Vendor_Name'].str.strip()
+    # Print original column names for debugging
+    print(f"Original columns in CSV: {df.columns.tolist()}")
+    
+    # Only normalize column names - remove extra spaces
+    df.columns = df.columns.str.strip()
+    
+    print(f"Cleaned columns: {df.columns.tolist()}")
+    
+    # Check if Tender_Value_Adjusted_Rs already exists (from your CSV)
+    if 'Tender_Value_Adjusted_Rs' not in df.columns:
+        # Convert Tender_Value_Cr to absolute value in rupees if needed
+        if 'Tender_Value_Cr' in df.columns:
+            df['Tender_Value_Rs'] = df['Tender_Value_Cr'] * 1_00_00_000
+        else:
+            print("Warning: No value column found in CSV")
+            df['Tender_Value_Rs'] = 0
+    else:
+        # CSV already has adjusted values, create base column for inflation adjustment
+        df['Tender_Value_Rs'] = df['Tender_Value_Adjusted_Rs']
+    
+    # Replace zero and null values to prevent division errors
+    # MUST use EXACT column names from your CSV: Project_length_km (capital L), Bidders_count (capital C)
+    numeric_columns = ['Tender_Value_Rs', 'Project_length_km', 'Bidders_count', 'Tender_Value_Adjusted_Rs']
+    for col in numeric_columns:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')  # Convert to numeric
+            df[col] = df[col].fillna(0.01)  # Replace NaN with small value
+            df[col] = df[col].replace(0, 0.01)  # Replace 0 with small value
+            print(f"✓ Processed numeric column: {col}")
+        else:
+            print(f"⚠️ Warning: Column '{col}' not found in dataframe")
+    
+    # Standardize vendor names if column exists
+    if 'Vendor_name' in df.columns:
+        df['Vendor_name'] = df['Vendor_name'].str.strip()
+        print(f"✓ Processed vendor names")
+    
+    print(f"Final columns available: {df.columns.tolist()}")
+    print(f"Data shape: {df.shape}")
+    print(f"Sample Project_length_km values: {df['Project_length_km'].head().tolist() if 'Project_length_km' in df.columns else 'NOT FOUND'}")
     
     return df
 

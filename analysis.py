@@ -31,9 +31,14 @@ def calculate_statistics(df: pd.DataFrame) -> Dict:
     total_spending = df['Tender_Value_Adjusted_Rs'].sum()
     total_projects = len(df)
     
-    # Calculate average cost per km
-    total_length = df['Project_Length_km'].sum()
-    avg_cost_per_km = (total_spending / total_length) / 1_00_000 if total_length > 0 else 0  # in lakhs per km
+    # Calculate average cost per km - ENSURE we use capital L
+    if 'Project_Length_km' in df.columns:
+        total_length = df['Project_Length_km'].sum()
+        avg_cost_per_km = (total_spending / total_length) if total_length > 0 else 0  # in rupees per km
+        print(f"DEBUG: total_spending={total_spending}, total_length={total_length}, avg_cost_per_km={avg_cost_per_km}")
+    else:
+        print(f"ERROR: Project_Length_km not found! Available columns: {df.columns.tolist()}")
+        avg_cost_per_km = 0
     
     # Time range
     min_year = int(df['Award_Year'].min())
@@ -43,7 +48,7 @@ def calculate_statistics(df: pd.DataFrame) -> Dict:
     return {
         'total_spending': total_spending,
         'total_projects': total_projects,
-        'avg_cost_per_km': avg_cost_per_km,
+        'avg_cost_per_km': avg_cost_per_km,  # Now in rupees per km, template will convert to lakhs
         'time_range': time_range,
         'districts_count': df['District'].nunique(),
         'vendors_count': df['Vendor_Name'].nunique()

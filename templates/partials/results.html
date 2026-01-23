@@ -26,17 +26,19 @@
                 {% if table_data and table_data|length > 0 %}
                     {% for row in table_data %}
                     <tr class="data-row">
-                        <td class="col-year">{{ row.Award_Year }}</td>
-                        <td class="col-district"><strong>{{ row.District }}</strong></td>
+                        <td class="col-year">{{ row.get('Award_Year', 'N/A') }}</td>
+                        <td class="col-district"><strong>{{ row.get('District', 'N/A') }}</strong></td>
                         <td class="col-road-type"><span class="badge badge--road-type">{{ row.get('Road_Type', 'N/A') }}</span></td>
-                        <td class="col-length">{{ '%.2f'|format(row.Project_Length_km) }}</td>
+                        <td class="col-length">{{ '%.2f'|format(row.get('Project_length_km', 0)) }}</td>
                         <td class="col-vendor">{{ row.get('Vendor_Name', 'N/A') }}</td>
-                        <td class="col-spending">₹{{ '%.2f'|format(row.Tender_Value_Adjusted_Rs / 10000000) }} Cr</td>
+                        <td class="col-spending">₹{{ '%.2f'|format(row.get('Tender_Value_Adjusted_Rs', 0) / 10000000) }} Cr</td>
                         <td class="col-cost-km">
-                            {% set cost_per_km = row.Tender_Value_Adjusted_Rs / row.Project_Length_km if row.Project_Length_km > 0 else 0 %}
+                            {% set length = row.get('Project_length_km', 0.01) %}
+                            {% set value = row.get('Tender_Value_Adjusted_Rs', 0) %}
+                            {% set cost_per_km = value / length if length > 0 else 0 %}
                             <span class="cost-indicator cost-indicator--below" 
                                   title="Cost per km for this project">
-                                ₹{{ '%.0f'|format(cost_per_km / 1000000) }}M
+                                ₹{{ '%.0f'|format(cost_per_km / 100000) }}L
                             </span>
                         </td>
                         <td class="col-bidders">
@@ -105,7 +107,7 @@
             <div class="metric-icon">₹</div>
             <div class="metric-content">
                 <div class="metric-label">Total Spending</div>
-                <div class="metric-value">{{ '%.2f'|format(stats.total_spending / 10000000) }} Cr</div>
+                <div class="metric-value">{{ '%.2f'|format((stats.total_spending|default(0)) / 10000000) }} Cr</div>
                 <div class="metric-note">Inflation-adjusted to 2024</div>
             </div>
         </div>
@@ -114,7 +116,7 @@
             <div class="metric-icon">🛣️</div>
             <div class="metric-content">
                 <div class="metric-label">Total Projects</div>
-                <div class="metric-value">{{ stats.total_projects }}</div>
+                <div class="metric-value">{{ stats.total_projects|default(0) }}</div>
                 <div class="metric-note">Road infrastructure projects</div>
             </div>
         </div>
@@ -123,7 +125,13 @@
             <div class="metric-icon">📏</div>
             <div class="metric-content">
                 <div class="metric-label">Avg Cost per Km</div>
-                <div class="metric-value">₹{{ '%.2f'|format(stats.avg_cost_per_km / 10000000) }} Cr</div>
+                <div class="metric-value">
+                    {% if stats.avg_cost_per_km and stats.avg_cost_per_km > 0 %}
+                        ₹{{ '%.2f'|format(stats.avg_cost_per_km / 100000) }} L
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </div>
                 <div class="metric-note">Average adjusted cost per kilometer</div>
             </div>
         </div>
@@ -132,7 +140,7 @@
             <div class="metric-icon">📊</div>
             <div class="metric-content">
                 <div class="metric-label">Districts</div>
-                <div class="metric-value">{{ stats.districts_count }}</div>
+                <div class="metric-value">{{ stats.districts_count|default(0) }}</div>
                 <div class="metric-note">Covered by selection</div>
             </div>
         </div>
